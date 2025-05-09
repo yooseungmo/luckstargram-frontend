@@ -1,0 +1,208 @@
+/* src/pages/HomePage.css */
+
+@import 'animate.css';
+
+body {
+  font-family: 'Rubik', sans-serif;
+}
+
+.fortune-bg {
+  background-image: url('/space.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  /* animation: move-stars 120s linear infinite; */
+}
+.fortune-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/star-overlay.jpg');
+  background-repeat: repeat;
+  opacity: 0.5;
+  animation: drift-stars 200s linear infinite;
+  pointer-events: none;
+}
+
+/* 별 배경 애니메이션 */
+/* @keyframes move-stars {
+  0%   { background-position: 0 0; }
+  100% { background-position: 1000px 1000px; }
+} */
+@keyframes drift-stars {
+  0%   { background-position: 0 0; }
+  100% { background-position: -2000px -2000px; }
+}
+
+
+/* 메인 프레임 */
+.frame {
+  width: 430px;
+  height: 100vh;
+  background: transparent;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* 마이크로 인터랙션 */
+.fortune-title,
+.fortune-btn {
+  transition: transform 0.2s ease-in-out;
+}
+.fortune-title:hover,
+.fortune-btn:hover {
+  transform: scale(1.05);
+}
+.fortune-title:active,
+.fortune-btn:active {
+  transform: scale(0.95);
+}
+
+/* 타이틀 */
+.fortune-title {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  text-align: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 서브타이틀 */
+.fortune-subtitle {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+/* 입력 폼 */
+.fortune-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+}
+.fortune-input-wrap {
+  width: 100%;
+}
+.fortune-label {
+  color: #e6e6e6;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+.fortune-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid #c7c7c7;
+  color: #fff;
+  padding: 0.5rem 0;
+  outline: none;
+}
+
+/* “오늘 이전” 노트 */
+.fortune-note {
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-left: 0.5rem;
+}
+
+/* 버튼 */
+.fortune-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 1.13rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.95rem 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.fortune-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.22);
+}
+.fixed-width-btn {
+  width: 100%;
+}
+
+/* 스켈레톤 & 로더 메시지 */
+.loader {
+  margin-top: 2rem;
+  width: calc(6 * 30px);
+  height: 50px;
+  display: flex;
+  color: #8d7958;
+  filter: drop-shadow(30px 25px 0 currentColor)
+          drop-shadow(60px 0 0 currentColor)
+          drop-shadow(120px 0 0 currentColor);
+  clip-path: inset(0 100% 0 0);
+  animation: l12 2s infinite steps(7);
+}
+.loader:before {
+  content: "";
+  width: 28px;
+  height: 25px;
+  --c: no-repeat radial-gradient(farthest-side, currentColor 92%, #0000);
+  background:
+    var(--c) left/70% 70%,
+    var(--c) right/20% 20%,
+    var(--c) top 0 right 15%/20% 20%,
+    var(--c) bottom 0 right 15%/20% 20%;
+}
+.loader-message {
+  margin-top: 2.5rem;
+}
+@keyframes l12 {
+  100% { clip-path: inset(0 -30px 0 0); }
+}
+
+/* 운세 카드 */
+.fortune-box {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  color: #fff;
+  max-width: 360px;
+  width: 100%;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(6px);
+}
+.fortune-box-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+.fortune-box-content {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.fortune-box-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+.fortune-box-tip {
+  font-size: 1rem;
+  font-weight: 500;
+  /* color: #ffd166; */
+}
