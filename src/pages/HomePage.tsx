@@ -1,7 +1,5 @@
-// HomePage.tsx
-
 import 'animate.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import './HomePage.css';
@@ -13,21 +11,18 @@ function pad(n: number) {
 const HomePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const titleRef = useRef<HTMLButtonElement | null>(null); // ⭐
 
-  // 로컬 스토리지에서 이름/생일 복원
   const savedName = localStorage.getItem('luckstar_name') || '';
   const savedBirth = localStorage.getItem('luckstar_birth') || '';
   const initialName = location.state?.name || savedName;
   const initialBirth = location.state?.birthDate || savedBirth;
 
-  // 오늘(로컬 타임존) 계산
   const now = new Date();
   const year = now.getFullYear();
   const month = pad(now.getMonth() + 1);
   const day = pad(now.getDate());
   const todayStr = `${year}-${month}-${day}`;
-
-  // 운세 날짜 최소값 (2025년 이후)
   const minDate = '2025-01-01';
 
   const [name, setName] = useState(initialName);
@@ -35,7 +30,6 @@ const HomePage = () => {
   const [fortuneDate, setFortuneDate] = useState(todayStr);
   const [isLoading, setIsLoading] = useState(false);
 
-  // 이름/생일 로컬저장
   useEffect(() => {
     if (name) localStorage.setItem('luckstar_name', name);
     if (birthDate) localStorage.setItem('luckstar_birth', birthDate);
@@ -53,21 +47,35 @@ const HomePage = () => {
     }, 3500);
   };
 
-  // 로딩 시
+  const handleLogoAnimate = () => {
+    const el = titleRef.current;
+    if (el) {
+      el.classList.remove('animate__jello');
+      void el.offsetWidth; // 리플로우 강제
+      el.classList.add('animate__jello');
+    }
+  };
+
+  const renderHeader = () => (
+    <>
+      <button
+        type="button"
+        ref={titleRef}
+        onClick={handleLogoAnimate}
+        className="fortune-title animate__animated focus:outline-none transform transition hover:scale-105 active:scale-95"
+      >
+        LuckStargram
+      </button>
+      <p className="fortune-subtitle mb-6">AI 기반 오늘의 운세 🍀</p>
+    </>
+  );
+
   if (isLoading) {
     return (
       <div className="fortune-bg">
         <div className="frame flex flex-col items-center pt-8 relative">
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="fortune-title animate__animated animate__jello focus:outline-none transform transition hover:scale-105 active:scale-95"
-          >
-            LuckStargram
-          </button>
-          <p className="fortune-subtitle mb-6">AI 기반 오늘의 운세 🍀</p>
+          {renderHeader()}
 
-          {/* 스켈레톤 */}
           <div className="animate-pulse space-y-4 w-full">
             <div className="h-8 bg-white/20 rounded w-3/4 mx-auto" />
             <div className="h-6 bg-white/20 rounded w-1/2 mx-auto" />
@@ -75,7 +83,6 @@ const HomePage = () => {
             <div className="h-10 bg-white/20 rounded w-2/3 mx-auto" />
           </div>
 
-          {/* 실제 로딩 */}
           <div className="mt-12 flex flex-col items-center">
             <LoadingSpinner />
             <div className="loader mt-8" />
@@ -91,17 +98,9 @@ const HomePage = () => {
   return (
     <div className="fortune-bg">
       <div className="frame flex flex-col items-center pt-8 relative">
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="fortune-title animate__animated animate__jello focus:outline-none transform transition hover:scale-105 active:scale-95"
-        >
-          LuckStargram
-        </button>
-        <p className="fortune-subtitle mb-6">AI 기반 오늘의 운세 🍀</p>
+        {renderHeader()}
 
         <form onSubmit={handleSubmit} className="fortune-form w-full">
-          {/* 이름 */}
           <div className="fortune-input-wrap">
             <label className="fortune-label">이름</label>
             <input
@@ -114,7 +113,6 @@ const HomePage = () => {
             />
           </div>
 
-          {/* 생년월일 */}
           <div className="fortune-input-wrap">
             <label className="fortune-label">생년월일</label>
             <input
@@ -126,7 +124,6 @@ const HomePage = () => {
             />
           </div>
 
-          {/* 운세 날짜 */}
           <div className="fortune-input-wrap">
             <label className="fortune-label">
               운세 날짜 <span className="fortune-note">(오늘 이전)</span>
@@ -156,7 +153,6 @@ const HomePage = () => {
           rel="noopener noreferrer"
           className="contact-inline-link"
         >
-          {/* 문의하기 */}
           Contact.
         </a>
       </div>
