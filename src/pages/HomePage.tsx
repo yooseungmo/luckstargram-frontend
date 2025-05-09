@@ -1,4 +1,4 @@
-// src/pages/HomePage.tsx
+// HomePage.tsx
 
 import 'animate.css';
 import React, { useEffect, useState } from 'react';
@@ -57,8 +57,7 @@ const HomePage = () => {
   if (isLoading) {
     return (
       <div className="fortune-bg">
-        <div className="frame flex flex-col items-center pt-8">
-          {/* 헤더(뒤로가기) */}
+        <div className="frame flex flex-col items-center pt-8 relative">
           <button
             type="button"
             onClick={() => navigate(-1)}
@@ -89,11 +88,9 @@ const HomePage = () => {
     );
   }
 
-  // 기본 폼
   return (
     <div className="fortune-bg">
-      <div className="frame flex flex-col items-center pt-8">
-        {/* 헤더(뒤로가기) */}
+      <div className="frame flex flex-col items-center pt-8 relative">
         <button
           type="button"
           onClick={() => navigate(-1)}
@@ -152,6 +149,16 @@ const HomePage = () => {
             AI가 예측한 나의 운세 보기
           </button>
         </form>
+
+        <a
+          href="https://forms.gle/9NTGLxcsES7QkDTf6"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="contact-inline-link"
+        >
+          {/* 문의하기 */}
+          Contact.
+        </a>
       </div>
     </div>
   );

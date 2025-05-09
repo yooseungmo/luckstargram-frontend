@@ -141,6 +141,34 @@ body {
   width: 100%;
 }
 
+.contact-inline-link {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: white;
+  opacity: 0.7;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.contact-inline-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+  font-weight: 400;
+}
+
+/* 버튼 아래에 고정된 상태로 유지 */
+.fortune-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+  position: relative;
+}
+
+.fortune-btn {
+  margin-bottom: 10px;
+}
+
 /* 스켈레톤 & 로더 메시지 */
 .loader {
   margin-top: 2rem;
