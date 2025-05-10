@@ -3,7 +3,7 @@
 import React, { useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
-import './HomePage.css'; // .logo-img, .logo-button, 애니메이션 클래스 정의
+import './HomePage.css';
 
 interface LocationState {
   name: string;
@@ -12,27 +12,29 @@ interface LocationState {
 }
 
 const ResultPage: React.FC = () => {
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { name, birthDate, fortuneDate } = (location.state as LocationState) || {};
 
+  const logoRef = useRef<HTMLImageElement>(null);
   const [showModal, setShowModal] = useState(false);
 
   // 이름에서 성 제외
   const nameOnly = name?.length > 1 ? name.slice(1) : name || '';
 
-  // 운세 날짜 파싱
+  // 날짜 파싱
   const dateObj = fortuneDate ? new Date(fortuneDate) : new Date();
   const month = dateObj.getMonth() + 1;
-  const date = dateObj.getDate();
+  const day = dateObj.getDate();
 
   const fortuneData = {
     message: '오늘은 작은 오해가 큰 갈등으로 이어질 수 있어요. 대화 전에 한 번 더 생각하세요 🤐',
     action_tip: '말조심하기!',
   };
 
+  // 고정 URL 복사
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
+    navigator.clipboard.writeText('https://luckstargram.com');
     setShowModal(true);
     setTimeout(() => setShowModal(false), 2000);
   };
@@ -87,21 +89,20 @@ const ResultPage: React.FC = () => {
           </p>
         </div>
 
-        {/* 공유 버튼 */}
-        <button onClick={handleCopyLink} className="fortune-btn fixed-width-btn">
+        {/* 링크 복사 버튼 */}
+        <button onClick={handleCopyLink} className="fortune-btn fixed-width-btn mb-4">
           🔗 LuckStargram 링크 복사하기
         </button>
+        <Modal isOpen={showModal} message="'https://luckstargram.com'이 복사되었습니다." />
 
-        <Modal isOpen={showModal} message="링크가 복사되었습니다" />
-
+        {/* Contact 링크 */}
         <a
           href="https://forms.gle/9NTGLxcsES7QkDTf6"
           target="_blank"
           rel="noopener noreferrer"
           className="contact-inline-link"
         >
-          {/* 문의하기 */}
-          Contact.
+          Contact
         </a>
       </div>
     </div>

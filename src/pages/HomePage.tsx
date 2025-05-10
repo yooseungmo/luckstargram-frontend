@@ -19,6 +19,7 @@ const HomePage = () => {
   const initialName = location.state?.name || savedName;
   const initialBirth = location.state?.birthDate || savedBirth;
 
+  // 오늘(로컬 타임존) 계산
   const now = new Date();
   const year = now.getFullYear();
   const month = pad(now.getMonth() + 1);
@@ -31,6 +32,7 @@ const HomePage = () => {
   const [fortuneDate, setFortuneDate] = useState(todayStr);
   const [isLoading, setIsLoading] = useState(false);
 
+  // 로컬저장
   useEffect(() => {
     if (name) localStorage.setItem('luckstar_name', name);
     if (birthDate) localStorage.setItem('luckstar_birth', birthDate);
@@ -42,22 +44,21 @@ const HomePage = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      navigate('/result', {
-        state: { name, birthDate, fortuneDate },
-      });
+      navigate('/result', { state: { name, birthDate, fortuneDate } });
     }, 3500);
   };
 
-  const handleLogoAnimate = () => {
-    const el = titleRef.current;
+  const animateLogo = () => {
+    const el = logoRef.current;
     if (el) {
       el.classList.remove('animate__jello');
-      void el.offsetWidth; // 리플로우 강제
+      // 강제 reflow
+      void el.offsetWidth;
       el.classList.add('animate__jello');
     }
   };
 
-  const renderHeader = () => (
+  const Header = () => (
     <>
       <button
         type="button"
@@ -71,7 +72,7 @@ const HomePage = () => {
           className="logo-img animate__animated"
         />
       </button>
-      <p className="fortune-subtitle mb-6">AI 기반 오늘의 운세 🍀</p>
+      <p className="fortune-subtitle mb-6">✨ 당신의 오늘, AI가 미리 알려드려요</p>
     </>
   );
 
@@ -81,7 +82,8 @@ const HomePage = () => {
         <div className="frame relative flex flex-col items-center pt-8">
           <Header />
 
-          <div className="animate-pulse space-y-4 w-full">
+          {/* 스켈레톤 */}
+          <div className="animate-pulse space-y-4 w-full mt-4">
             <div className="h-8 bg-white/20 rounded w-3/4 mx-auto" />
             <div className="h-6 bg-white/20 rounded w-1/2 mx-auto" />
             <div className="h-40 bg-white/20 rounded mx-4" />
@@ -103,10 +105,11 @@ const HomePage = () => {
 
   return (
     <div className="fortune-bg">
-      <div className="frame flex flex-col items-center pt-8 relative">
-        {renderHeader()}
+      <div className="frame relative flex flex-col items-center pt-8">
+        <Header />
 
         <form onSubmit={handleSubmit} className="fortune-form w-full">
+          {/* 이름 */}
           <div className="fortune-input-wrap">
             <label className="fortune-label">이름</label>
             <input
@@ -119,6 +122,7 @@ const HomePage = () => {
             />
           </div>
 
+          {/* 생년월일 */}
           <div className="fortune-input-wrap">
             <label className="fortune-label">생년월일</label>
             <input
@@ -130,6 +134,7 @@ const HomePage = () => {
             />
           </div>
 
+          {/* 운세 날짜 */}
           <div className="fortune-input-wrap">
             <label className="fortune-label">
               운세 날짜 <span className="fortune-note">(오늘 이전)</span>
@@ -159,7 +164,7 @@ const HomePage = () => {
           rel="noopener noreferrer"
           className="contact-inline-link"
         >
-          Contact.
+          Contact
         </a>
       </div>
     </div>

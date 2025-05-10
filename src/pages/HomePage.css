@@ -69,6 +69,17 @@ body {
   transform: scale(0.95);
 }
 
+.logo-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+.logo-img {
+  height: 110px;
+  width: auto;
+  background: transparent !important; 
+}
+
 /* 타이틀 */
 .fortune-title {
   color: #fff;
@@ -84,9 +95,11 @@ body {
 /* 서브타이틀 */
 .fortune-subtitle {
   color: #fff;
-  font-size: 1rem;
-  font-weight: 300;
-  letter-spacing: 0.02em;
+  margin-top: 2px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.0001em;
+  opacity: 0.7;
   text-align: center;
 }
 
@@ -206,9 +219,9 @@ body {
   border: 1.5px solid rgba(255, 255, 255, 0.3);
   border-radius: 1rem;
   padding: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.3rem;
   color: #fff;
-  max-width: 360px;
+  max-width: 380px;
   width: 100%;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(6px);
@@ -216,13 +229,14 @@ body {
 .fortune-box-title {
   font-size: 1.1rem;
   font-weight: 600;
+  margin-top: 0.3rem;
   margin-bottom: 0.8rem;
 }
 .fortune-box-content {
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.6;
-  margin-bottom: 1rem;
+  margin-bottom: 0.3rem;
 }
 .fortune-box-divider {
   height: 1px;
