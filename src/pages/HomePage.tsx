@@ -11,8 +11,9 @@ function pad(n: number) {
 const HomePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const titleRef = useRef<HTMLButtonElement | null>(null); // ⭐
+  const logoRef = useRef<HTMLImageElement | null>(null);
 
+  // 로컬 스토리지에서 이름/생일 복원
   const savedName = localStorage.getItem('luckstar_name') || '';
   const savedBirth = localStorage.getItem('luckstar_birth') || '';
   const initialName = location.state?.name || savedName;
@@ -60,11 +61,15 @@ const HomePage = () => {
     <>
       <button
         type="button"
-        ref={titleRef}
-        onClick={handleLogoAnimate}
-        className="fortune-title animate__animated focus:outline-none transform transition hover:scale-105 active:scale-95"
+        onClick={animateLogo}
+        className="logo-button focus:outline-none"
       >
-        LuckStargram
+        <img
+          ref={logoRef}
+          src="/main.png"
+          alt="LuckStargram"
+          className="logo-img animate__animated"
+        />
       </button>
       <p className="fortune-subtitle mb-6">AI 기반 오늘의 운세 🍀</p>
     </>
@@ -73,8 +78,8 @@ const HomePage = () => {
   if (isLoading) {
     return (
       <div className="fortune-bg">
-        <div className="frame flex flex-col items-center pt-8 relative">
-          {renderHeader()}
+        <div className="frame relative flex flex-col items-center pt-8">
+          <Header />
 
           <div className="animate-pulse space-y-4 w-full">
             <div className="h-8 bg-white/20 rounded w-3/4 mx-auto" />
@@ -83,6 +88,7 @@ const HomePage = () => {
             <div className="h-10 bg-white/20 rounded w-2/3 mx-auto" />
           </div>
 
+          {/* 로딩 애니 */}
           <div className="mt-12 flex flex-col items-center">
             <LoadingSpinner />
             <div className="loader mt-8" />

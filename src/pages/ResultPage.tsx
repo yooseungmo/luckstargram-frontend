@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+// src/pages/ResultPage.tsx
+
+import React, { useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
+import './HomePage.css'; // .logo-img, .logo-button, 애니메이션 클래스 정의
 
 interface LocationState {
   name: string;
@@ -34,21 +37,43 @@ const ResultPage: React.FC = () => {
     setTimeout(() => setShowModal(false), 2000);
   };
 
+  // 로고 클릭 애니메이션 + 홈 이동
+  const handleLogoClick = () => {
+    const el = logoRef.current;
+    if (el) {
+      el.classList.remove('animate__jello');
+      void el.offsetWidth;
+      el.classList.add('animate__jello');
+      setTimeout(() => {
+        navigate('/', { state: { name, birthDate } });
+      }, 400);
+    } else {
+      navigate('/', { state: { name, birthDate } });
+    }
+  };
+
   return (
     <div className="fortune-bg">
       <div className="frame relative flex flex-col items-center pt-8">
+        {/* 로고 이미지 */}
         <button
           type="button"
-          onClick={() => navigate('/', { state: { name, birthDate } })}
-          className="fortune-title animate__animated animate__jello focus:outline-none transform transition hover:scale-105 active:scale-95"
+          onClick={handleLogoClick}
+          className="logo-button focus:outline-none transform transition hover:scale-105 active:scale-95 mb-2"
         >
-          LuckStargram
+          <img
+            ref={logoRef}
+            src="/main.png"
+            alt="LuckStargram"
+            className="logo-img animate__animated"
+          />
         </button>
-        <p className="fortune-subtitle mb-6">AI 기반 오늘의 운세 🍀</p>
 
-        {/* 오늘 날짜 */}
-        <p className="text-white text-lg font-semibold mb-6">
-          {nameOnly}님의 {month}월 {date}일 운세입니다. 🥠
+        <p className="fortune-subtitle mb-4">✨ 당신의 오늘, AI가 미리 알려드려요</p>
+
+        {/* 선택된 운세 날짜 (크기 키움) */}
+        <p className="text-white text-5xl font-semibold mb-6">
+          {nameOnly}님의 {month}월 {day}일 운세입니다. 🥠
         </p>
 
         {/* 운세 카드 */}
