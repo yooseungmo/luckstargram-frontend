@@ -50,21 +50,45 @@ body{ font-family:'Rubik',sans-serif; }
 }
 .fortune-label{color:#e6e6e6;font-size:1rem;margin-bottom:.2rem;}
 .fortune-input-wrap{width:100%;}
+
+/* ───────── 공통 텍스트 인풋 (이름) ───────── */
 .fortune-input{
-  width:100%;background:transparent;border:none;border-bottom:1.5px solid #c7c7c7;
-  color:#fff;padding:.5rem 0;outline:none;
+  width:100%;
+  background:transparent;
+  border:none;                             
+  border-bottom:1.5px solid #c7c7c7;      
+  color:#fff;
+  padding:.5rem 0;
+  font-size:16px;                         
+  font-weight:400;                        
+  text-align:left;                        
+  appearance:none;
+  -webkit-appearance:none;
+  box-shadow:none;
+  outline:none;
 }
 
-/* ───────── date‑input (PC 기본, 모바일 커스텀) ───────── */
+/* ───────── date‑input ───────── */
 input[type='date']{
-  width:100%;background:transparent;border:none;border-bottom:1.5px solid #c7c7c7;
-  color:#fff;padding:.5rem 0;font-size:16px;line-height:1.4;
-  appearance:auto;-webkit-appearance:auto;   /* PC 기본 UI */
+  width:100%;
+  background:transparent;
+  border:none;                               
+  border-bottom:1.5px solid #c7c7c7;        
+  color:#fff;
+  padding:.5rem 0;
+  font-size:16px;
+  line-height:1.4;
+  text-align:left;                          
+  appearance:auto;
+  -webkit-appearance:auto;
+  box-shadow:none;
+  border-radius:0;
 }
-/* 모바일 터치(hover:none+pct:coarse) 전용 커스텀 */
+
+/* 모바일(iOS/안드) 전용 커스텀 */
 @media (hover:none) and (pointer:coarse){
   input[type='date']{
-    appearance:none;-webkit-appearance:none; /* 달력 아이콘 제거 */
+    appearance:none;-webkit-appearance:none;
   }
   input[type='date']::-webkit-datetime-edit,
   input[type='date']::-webkit-datetime-edit-fields-wrapper,
@@ -72,7 +96,7 @@ input[type='date']{
   input[type='date']::-webkit-datetime-edit-month-field,
   input[type='date']::-webkit-datetime-edit-day-field,
   input[type='date']::-webkit-datetime-edit-year-field{
-    background:transparent;color:#fff;
+    background:transparent;color:#fff;text-align:left;
   }
   input[type='date']::-webkit-calendar-picker-indicator{
     filter:invert(1);cursor:pointer;
@@ -114,3 +138,10 @@ input[type='date']{
 .fortune-box-content{font-size:1rem;font-weight:500;line-height:1.6;margin-bottom:.3rem;}
 .fortune-box-divider{height:1px;background:rgba(255,255,255,.2);margin:1rem 0;}
 .fortune-box-tip{font-size:1rem;font-weight:500;}
+
+/* ───────── 모바일 폭 살짝 더 넓히기 ───────── */
+@media (max-width:429.98px){
+  .frame{
+    padding:2rem 1rem; 
+  }
+}
