@@ -69,10 +69,15 @@ const ResultPage: React.FC = () => {
         </p>
 
         <div className="fortune-box">
-          <p className="fortune-box-title">💬 오늘의 메시지</p>
-          <p className="fortune-box-content">{message}</p>
+          <p className="fortune-box-title">‣ 오늘의 메시지</p>
+          <p
+            className="fortune-box-content"
+            style={{ whiteSpace: 'pre-line' }}
+          >
+            {message.replace(/\. /g, '.\n')}
+          </p>
           <div className="fortune-box-divider" />
-          <p className="fortune-box-title">📌 Tip</p>
+          <p className="fortune-box-title">‣ Tip</p>
           <p className="fortune-box-content font-semibold text-yellow-300">
             {action_tip}
           </p>
