@@ -78,8 +78,11 @@ const handleCopyLink = () => {
           ✨ 당신의 오늘, AI가 미리 알려드려요
         </p>
 
-        <p className="text-white text-5xl font-semibold mb-6">
-          {nameOnly}님의 {month}월 {day}일 운세입니다. 🥠
+        <p
+          className="text-white text-5xl mb-6"
+          style={{ fontWeight: 700 }}
+          >
+          {nameOnly}님의 {month}월 {day}일 운세입니다 🥠
         </p>
 
         <div className="fortune-box">

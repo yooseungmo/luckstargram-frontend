@@ -195,7 +195,7 @@ const HomePage = () => {
           {/* 운세 날짜 */}
           <div className="fortune-input-wrap">
             <label className="fortune-label">
-              운세 날짜 <span className="fortune-note">(오늘 이전)</span>
+              운세 날짜 <span className="fortune-note">(오늘 이전만 가능)</span>
             </label>
             <input
               type="date"
