@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# SEO‑friendly: 검색 엔진에 사이트맵 위치 알려주기
+Sitemap: https://www.luckstargram.com/sitemap.xml
