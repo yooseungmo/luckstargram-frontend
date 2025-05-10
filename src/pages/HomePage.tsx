@@ -25,7 +25,6 @@ const HomePage = () => {
   const month = pad(now.getMonth() + 1);
   const day = pad(now.getDate());
   const todayStr = `${year}-${month}-${day}`;
-  const minDate = '2025-01-01';
 
   const [name, setName] = useState(initialName);
   const [birthDate, setBirthDate] = useState(initialBirth);
@@ -130,6 +129,8 @@ const HomePage = () => {
               value={birthDate}
               onChange={e => setBirthDate(e.target.value)}
               className="fortune-input"
+              min="1900-01-01"
+              max={todayStr}
               required
             />
           </div>
@@ -144,7 +145,7 @@ const HomePage = () => {
               value={fortuneDate}
               onChange={e => setFortuneDate(e.target.value)}
               className="fortune-input"
-              min={minDate}
+              min="2025-01-01"
               max={todayStr}
               required
             />
