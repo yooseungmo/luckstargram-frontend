@@ -24,11 +24,25 @@ const ResultPage: React.FC = () => {
   const month = dateObj.getMonth() + 1;
   const day = dateObj.getDate();
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText('https://luckstargram.com');
+/* ---- 링크(복사/공유) 버튼 ---- */
+const handleCopyLink = () => {
+  const shareData = {
+    title: 'LuckStargram 🍀',
+    url: 'https://luckstargram.com',
+  };
+
+  if (navigator.share) {
+    navigator.share(shareData).catch(() => {
+      navigator.clipboard.writeText(shareData.url);
+      setShowModal(true);
+      setTimeout(() => setShowModal(false), 2000);
+    });
+  } else {
+    navigator.clipboard.writeText(shareData.url);
     setShowModal(true);
     setTimeout(() => setShowModal(false), 2000);
-  };
+  }
+};
 
   const handleLogoClick = () => {
     const el = logoRef.current;
