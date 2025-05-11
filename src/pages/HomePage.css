@@ -121,7 +121,7 @@ input[type='date']{
 
 /* ───────── 버튼 ───────── */
 .fortune-btn{
-  width:100%;margin-bottom:10px;
+  width:100%;margin-bottom:10px;max-width:100%;margin: 0 auto 10px;
   background:rgba(255,255,255,.12);color:#fff;font-size:1.13rem;font-weight:600;
   border:none;border-radius:1rem;padding:.95rem 0;cursor:pointer;transition:background .2s;
 }
@@ -145,7 +145,7 @@ input[type='date']{
 .fortune-box{
   background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.3);border-radius:1rem;
   padding:1.5rem;margin-bottom:1.3rem;color:#fff;width:100%;box-sizing:border-box;max-width:none;
-  box-shadow:0 4px 18px rgba(0,0,0,.15);backdrop-filter:blur(6px);
+  box-shadow:0 4px 18px rgba(0,0,0,.15);backdrop-filter:blur(6px);margin: 0 auto 1.3rem;max-width:100%;
 }
 .fortune-box-title{font-size:1.1rem;font-weight:600;margin:.3rem 0 .8rem;}
 .fortune-box-content{font-size:1rem;font-weight:500;line-height:1.6;margin-bottom:.3rem;}
