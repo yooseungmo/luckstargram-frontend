@@ -36,7 +36,6 @@ const HomePage: React.FC = () => {
 
   const initialName      = location.state?.name      || savedName;
   const initialBirth     = location.state?.birthDate || savedBirth;
-  /* 오늘과 다르면 자동으로 오늘 날짜로 갱신 */
   const initialFortune   =
     savedFortuneDate === todayStr ? savedFortuneDate : todayStr;
 
@@ -46,6 +45,7 @@ const HomePage: React.FC = () => {
   const [fortuneDate, setFortuneDate] = useState(initialFortune);
   const [isLoading,   setIsLoading]   = useState(false);
   const [showNameError, setShowNameError] = useState(false);
+  const [showDateError, setShowDateError] = useState(false);     // ✨ 날짜 오류
 
   /* ---------- 로컬 저장 ---------- */
   useEffect(() => {
@@ -71,7 +71,14 @@ const HomePage: React.FC = () => {
     // 이름 검증
     if (!KOREAN_REGEX.test(name) && !ENGLISH_REGEX.test(name)) {
       setShowNameError(true);
-      setTimeout(() => setShowNameError(false), 2000);
+      setTimeout(() => setShowNameError(false), 3500);
+      return;
+    }
+
+    // 날짜 검증 (내일 이후면 제출 막기)
+    if (fortuneDate > todayStr) {
+      setShowDateError(true);
+      setTimeout(() => setShowDateError(false), 3500);
       return;
     }
 
@@ -171,14 +178,12 @@ const HomePage: React.FC = () => {
               onChange={e => setName(e.target.value)}
               className="fortune-input"
               placeholder="이름을 입력하세요"
+              style={{ fontSize: '16px' }}         
               required
             />
             {showNameError && (
-              <span
-                className="absolute left-full ml-3 top-1/2 -translate-y-1/2 text-red-400 text-sm whitespace-nowrap"
-                style={{ color: '#f87171' }}
-              >
-                이름은 한글 또는 영문이여야 합니다.
+                <span className="fortune-error">
+                * 이름은 한글 또는 영문이여야 합니다.
               </span>
             )}
           </div>
@@ -198,19 +203,31 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* 운세 날짜 */}
-          <div className="fortune-input-wrap">
+          <div className="fortune-input-wrap relative">
             <label className="fortune-label">
               운세 날짜 <span className="fortune-note">(오늘 이전만 가능)</span>
             </label>
             <input
               type="date"
               value={fortuneDate}
-              onChange={e => setFortuneDate(e.target.value)}
+              onChange={e => {
+                const v = e.target.value;
+                setFortuneDate(v);
+                if (v > todayStr) {
+                  setShowDateError(true);
+                  setTimeout(() => setShowDateError(false), 3500);
+                }
+              }}
               className="fortune-input"
               min="2025-01-01"
               max={todayStr}
               required
             />
+            {showDateError && (
+              <span className="fortune-error">
+                * 내일은 또 어떤 운세가 기다리고 있을까요? 🍀
+              </span>
+            )}
           </div>
 
           <button
@@ -227,7 +244,7 @@ const HomePage: React.FC = () => {
           rel="noopener noreferrer"
           className="contact-inline-link"
         >
-          Contact
+          Contact.
         </a>
       </div>
     </div>

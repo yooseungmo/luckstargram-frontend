@@ -45,11 +45,24 @@ body{ font-family:'Rubik',sans-serif; }
 .fortune-subtitle{color:#fff;font-size:.9rem;font-weight:400;text-align:center;margin-top:2px;opacity:.7;}
 
 /* ───────── 입력 폼 ───────── */
-.fortune-form{
-  margin-top:2.5rem;width:100%;display:flex;flex-direction:column;gap:1.7rem;position:relative;
-}
+.fortune-form{margin-top:2.5rem;width:100%;display:flex;flex-direction:column;gap:1.7rem;position:relative;}
 .fortune-label{color:#e6e6e6;font-size:1rem;margin-bottom:.2rem;}
-.fortune-input-wrap{width:100%;}
+.fortune-input-wrap{width:100%;position:relative;}
+
+.fortune-input,
+input[type='date']{
+  width:100%;background:transparent;border:none;border-bottom:1.5px solid #c7c7c7;
+  color:#fff;padding:.5rem 0;font-size:1rem;outline:none;text-align:left;
+}
+
+/* 오류 메시지 (이름/날짜) */
+.fortune-error{
+  font-size:.7rem;   
+  font-weight:700;   
+  color:#f87171;
+  position:absolute;left:0;top:100%;margin-top:.25rem;
+  white-space:nowrap;
+}
 
 /* ───────── 공통 텍스트 인풋 (이름) ───────── */
 .fortune-input{
