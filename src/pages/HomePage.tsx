@@ -222,7 +222,7 @@ const HomePage = () => {
           rel="noopener noreferrer"
           className="contact-inline-link"
         >
-          Contact
+          Contact.
         </a>
       </div>
     </div>
