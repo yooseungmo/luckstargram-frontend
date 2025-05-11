@@ -33,7 +33,7 @@ body{ font-family:'Rubik',sans-serif; }
 }
 /* 모바일(≤429px) : 유동폭 + 최소 360 */
 @media (max-width:429.98px){
-  .frame{ width:100%;min-width:360px; }
+  .frame{ width:100%;min-width:360px; margin: 0 1.5rem }
 }
 
 /* ───────── 로고 & 타이틀 ───────── */
