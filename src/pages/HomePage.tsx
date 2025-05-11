@@ -23,13 +23,13 @@ const HomePage: React.FC = () => {
   const location = useLocation();
   const logoRef  = useRef<HTMLImageElement | null>(null);
 
-  /* ---------- 오늘 날짜 ---------- */
+  /* 오늘 날짜 */
   const now      = new Date();
   const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
     now.getDate(),
   )}`;
 
-  /* ---------- 로컬 스토리지 초기값 ---------- */
+  /* 로컬스토리지 초기값 */
   const savedName        = localStorage.getItem('luckstar_name')     || '';
   const savedBirth       = localStorage.getItem('luckstar_birth')    || '';
   const savedFortuneDate = localStorage.getItem('luckstar_fortune')  || '';
@@ -39,22 +39,22 @@ const HomePage: React.FC = () => {
   const initialFortune   =
     savedFortuneDate === todayStr ? savedFortuneDate : todayStr;
 
-  /* ---------- 상태 ---------- */
-  const [name,        setName]        = useState(initialName);
-  const [birthDate,   setBirthDate]   = useState(initialBirth);
-  const [fortuneDate, setFortuneDate] = useState(initialFortune);
-  const [isLoading,   setIsLoading]   = useState(false);
+  /* 상태 */
+  const [name,          setName]        = useState(initialName);
+  const [birthDate,     setBirthDate]   = useState(initialBirth);
+  const [fortuneDate,   setFortuneDate] = useState(initialFortune);
+  const [isLoading,     setIsLoading]   = useState(false);
   const [showNameError, setShowNameError] = useState(false);
-  const [showDateError, setShowDateError] = useState(false);     // ✨ 날짜 오류
+  const [showDateError, setShowDateError] = useState(false);
 
-  /* ---------- 로컬 저장 ---------- */
+  /* 로컬 저장 */
   useEffect(() => {
     if (name)        localStorage.setItem('luckstar_name',    name);
     if (birthDate)   localStorage.setItem('luckstar_birth',   birthDate);
     if (fortuneDate) localStorage.setItem('luckstar_fortune', fortuneDate);
   }, [name, birthDate, fortuneDate]);
 
-  /* ---------- 로고 애니메이션 ---------- */
+  /* 로고 애니메이션 */
   const animateLogo = useCallback(() => {
     const el = logoRef.current;
     if (el) {
@@ -64,18 +64,15 @@ const HomePage: React.FC = () => {
     }
   }, []);
 
-  /* ---------- 제출 ---------- */
+  /* 제출 */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 이름 검증
     if (!KOREAN_REGEX.test(name) && !ENGLISH_REGEX.test(name)) {
       setShowNameError(true);
       setTimeout(() => setShowNameError(false), 3500);
       return;
     }
-
-    // 날짜 검증 (내일 이후면 제출 막기)
     if (fortuneDate > todayStr) {
       setShowDateError(true);
       setTimeout(() => setShowDateError(false), 3500);
@@ -98,6 +95,9 @@ const HomePage: React.FC = () => {
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
 
+      // ─── 로컬스토리지에 결과 저장 ───
+      localStorage.setItem('luckstar_lastResult', JSON.stringify(data));
+
       // 최소 3초 로딩 보장
       const elapsed = Date.now() - start;
       if (elapsed < 3000)
@@ -112,7 +112,7 @@ const HomePage: React.FC = () => {
     }
   };
 
-  /* ---------- Header ---------- */
+  /* Header */
   const Header = useMemo(
     () =>
       memo(() => (
@@ -137,7 +137,7 @@ const HomePage: React.FC = () => {
     [animateLogo],
   );
 
-  /* ---------- 로딩 화면 ---------- */
+  /* 로딩 화면 */
   if (isLoading) {
     return (
       <div className="fortune-bg">
@@ -162,7 +162,7 @@ const HomePage: React.FC = () => {
     );
   }
 
-  /* ---------- 입력 폼 ---------- */
+  /* 입력 폼 */
   return (
     <div className="fortune-bg">
       <div className="frame relative flex flex-col items-center pt-8">
@@ -178,11 +178,11 @@ const HomePage: React.FC = () => {
               onChange={e => setName(e.target.value)}
               className="fortune-input"
               placeholder="이름을 입력하세요"
-              style={{ fontSize: '16px' }}         
+              style={{ fontSize: '16px' }}
               required
             />
             {showNameError && (
-                <span className="fortune-error">
+              <span className="fortune-error">
                 * 이름은 한글 또는 영문이여야 합니다.
               </span>
             )}
