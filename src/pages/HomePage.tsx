@@ -18,35 +18,41 @@ function pad(n: number) {
 const KOREAN_REGEX = /^[가-힣]+$/;
 const ENGLISH_REGEX = /^[A-Za-z]+$/;
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const logoRef = useRef<HTMLImageElement | null>(null);
+  const logoRef  = useRef<HTMLImageElement | null>(null);
 
-  /* ---------- 로컬 스토리지 초기값 ---------- */
-  const savedName = localStorage.getItem('luckstar_name') || '';
-  const savedBirth = localStorage.getItem('luckstar_birth') || '';
-  const initialName = location.state?.name || savedName;
-  const initialBirth = location.state?.birthDate || savedBirth;
-
-  /* ---------- 날짜 ---------- */
-  const now = new Date();
+  /* ---------- 오늘 날짜 ---------- */
+  const now      = new Date();
   const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
     now.getDate(),
   )}`;
 
+  /* ---------- 로컬 스토리지 초기값 ---------- */
+  const savedName        = localStorage.getItem('luckstar_name')     || '';
+  const savedBirth       = localStorage.getItem('luckstar_birth')    || '';
+  const savedFortuneDate = localStorage.getItem('luckstar_fortune')  || '';
+
+  const initialName      = location.state?.name      || savedName;
+  const initialBirth     = location.state?.birthDate || savedBirth;
+  /* 오늘과 다르면 자동으로 오늘 날짜로 갱신 */
+  const initialFortune   =
+    savedFortuneDate === todayStr ? savedFortuneDate : todayStr;
+
   /* ---------- 상태 ---------- */
-  const [name, setName] = useState(initialName);
-  const [birthDate, setBirthDate] = useState(initialBirth);
-  const [fortuneDate, setFortuneDate] = useState(todayStr);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showNameError, setShowNameError] = useState(false); // 오류 플래그
+  const [name,        setName]        = useState(initialName);
+  const [birthDate,   setBirthDate]   = useState(initialBirth);
+  const [fortuneDate, setFortuneDate] = useState(initialFortune);
+  const [isLoading,   setIsLoading]   = useState(false);
+  const [showNameError, setShowNameError] = useState(false);
 
   /* ---------- 로컬 저장 ---------- */
   useEffect(() => {
-    if (name) localStorage.setItem('luckstar_name', name);
-    if (birthDate) localStorage.setItem('luckstar_birth', birthDate);
-  }, [name, birthDate]);
+    if (name)        localStorage.setItem('luckstar_name',    name);
+    if (birthDate)   localStorage.setItem('luckstar_birth',   birthDate);
+    if (fortuneDate) localStorage.setItem('luckstar_fortune', fortuneDate);
+  }, [name, birthDate, fortuneDate]);
 
   /* ---------- 로고 애니메이션 ---------- */
   const animateLogo = useCallback(() => {
@@ -62,10 +68,10 @@ const HomePage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 이름 검증 (완성형 한글 only 또는 영문 only)
+    // 이름 검증
     if (!KOREAN_REGEX.test(name) && !ENGLISH_REGEX.test(name)) {
       setShowNameError(true);
-      setTimeout(() => setShowNameError(false), 2000); 
+      setTimeout(() => setShowNameError(false), 2000);
       return;
     }
 
@@ -75,7 +81,7 @@ const HomePage = () => {
     try {
       const qs = new URLSearchParams({
         name,
-        birth_date: birthDate,
+        birth_date:   birthDate,
         fortune_date: fortuneDate,
       }).toString();
 
@@ -85,7 +91,7 @@ const HomePage = () => {
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
 
-      // 최소 로딩 3초 보장
+      // 최소 3초 로딩 보장
       const elapsed = Date.now() - start;
       if (elapsed < 3000)
         await new Promise(r => setTimeout(r, 3500 - elapsed));
@@ -158,7 +164,6 @@ const HomePage = () => {
         <form onSubmit={handleSubmit} className="fortune-form w-full">
           {/* 이름 */}
           <div className="fortune-input-wrap relative">
-            {/* relative 추가 → 오류 메시지 absolute 배치 */}
             <label className="fortune-label">이름</label>
             <input
               type="text"
@@ -168,11 +173,11 @@ const HomePage = () => {
               placeholder="이름을 입력하세요"
               required
             />
-
-            {/* 오류 메시지 (2초) */}
             {showNameError && (
-              <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 text-red-400 text-sm whitespace-nowrap"
-              style={{ color: '#f87171' }}>
+              <span
+                className="absolute left-full ml-3 top-1/2 -translate-y-1/2 text-red-400 text-sm whitespace-nowrap"
+                style={{ color: '#f87171' }}
+              >
                 이름은 한글 또는 영문이여야 합니다.
               </span>
             )}
@@ -222,7 +227,7 @@ const HomePage = () => {
           rel="noopener noreferrer"
           className="contact-inline-link"
         >
-          Contact.
+          Contact
         </a>
       </div>
     </div>
