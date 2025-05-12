@@ -25,7 +25,8 @@ const HomePage: React.FC = () => {
 
   /* 오늘 날짜 */
   const now      = new Date();
-  const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
+  const yearStr  = String(now.getFullYear());
+  const todayStr = `${yearStr}-${pad(now.getMonth() + 1)}-${pad(
     now.getDate(),
   )}`;
 
@@ -73,7 +74,8 @@ const HomePage: React.FC = () => {
       setTimeout(() => setShowNameError(false), 3500);
       return;
     }
-    if (fortuneDate > todayStr) {
+    // 올해 벨리데이션: 금년 1월 1일부터 오늘까지
+    if (fortuneDate < `${yearStr}-01-01` || fortuneDate > `${yearStr}-12-31`) {
       setShowDateError(true);
       setTimeout(() => setShowDateError(false), 3500);
       return;
@@ -205,7 +207,7 @@ const HomePage: React.FC = () => {
           {/* 운세 날짜 */}
           <div className="fortune-input-wrap relative">
             <label className="fortune-label">
-              운세 날짜 <span className="fortune-note">(오늘 이전만 가능)</span>
+              운세 날짜 <span className="fortune-note"></span>
             </label>
             <input
               type="date"
@@ -213,19 +215,19 @@ const HomePage: React.FC = () => {
               onChange={e => {
                 const v = e.target.value;
                 setFortuneDate(v);
-                if (v > todayStr) {
+                if (v < `${yearStr}-01-01` || v > `${yearStr}-12-31`) {
                   setShowDateError(true);
                   setTimeout(() => setShowDateError(false), 3500);
                 }
               }}
               className="fortune-input"
-              min="2025-01-01"
-              max={todayStr}
+              min={`${yearStr}-01-01`}
+              max={`${yearStr}-12-31`}
               required
             />
             {showDateError && (
               <span className="fortune-error">
-                * 내일은 또 어떤 운세가 기다리고 있을까요? 🍀
+                * 올해 날짜만 선택할 수 있어요.
               </span>
             )}
           </div>
