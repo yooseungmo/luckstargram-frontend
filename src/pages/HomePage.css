@@ -13,7 +13,7 @@ body{ font-family:'Rubik',sans-serif; }
 .fortune-bg::after{
   content:'';position:absolute;inset:0;
   background:url('/star-overlay.jpg') repeat;
-  opacity:.4;animation:drift-stars 200s linear infinite;
+  opacity:.5;animation:drift-stars 200s linear infinite;
   pointer-events:none;
 }
 @keyframes drift-stars{

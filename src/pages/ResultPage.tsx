@@ -4,8 +4,8 @@ import Modal from '../components/Modal';
 import './HomePage.css';
 
 const ResultPage: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate   = useNavigate();
+  const location   = useLocation();
 
   // ─── 네비 State에서 데이터 추출 ───
   const {
@@ -18,14 +18,17 @@ const ResultPage: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = (location.state as any) || {};
 
-  // ─── 사용 횟수 & 공유 횟수 ───
+  // ─── 사용/공유/수신 횟수 ───
   const storedUsed    = Number(localStorage.getItem('luckstar_usedCount')   || '0');
   const storedShared  = Number(localStorage.getItem('luckstar_sharedCount') || '0');
-  const [sharedCount, setSharedCount] = useState(storedShared);
+  const storedReceive = Number(localStorage.getItem('luckstar_receiveCount')|| '0');
+
+  const [sharedCount, setSharedCount]   = useState(storedShared);
+  const receiveCount                    = storedReceive;
 
   // ─── 남은 횟수 계산 ───
   const dailyLimit     = 1;
-  const remainingCount = dailyLimit - storedUsed + sharedCount;
+  const remainingCount = dailyLimit - storedUsed + sharedCount + receiveCount;
 
   // ─── 로고 애니메이션 & 복원 ───
   const logoRef = useRef<HTMLImageElement>(null);
@@ -127,7 +130,8 @@ const ResultPage: React.FC = () => {
           style={{
             margin: '0.1rem 0 0.5rem 0', 
             fontWeight: 500,
-            color: remainingCount > 0 ? '#22c55e' : '#ef4444',
+            color: remainingCount > 0 ? '#22c55e' : '#dc2626',
+            textShadow: '0 1px 4px rgba(0, 0, 0, 0.5)',
           }}
         >
           * 오늘 남은 운세 기회: {remainingCount}회

@@ -27,18 +27,22 @@ const HomePage: React.FC = () => {
   /* 오늘 날짜 */
   const now      = new Date();
   const yearStr  = String(now.getFullYear());
-  const todayStr = `${yearStr}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+  const todayStr = `${yearStr}-${pad(now.getMonth() + 1)}-${pad(
+    now.getDate(),
+  )}`;
 
-  /* usedCount / sharedCount */
-  const dailyLimit        = 1;
-  const usedCountStored   = Number(localStorage.getItem('luckstar_usedCount')   || '0');
-  const sharedCountStored = Number(localStorage.getItem('luckstar_sharedCount') || '0');
+  /* usedCount / sharedCount / receiveCount */
+  const dailyLimit          = 1;
+  const usedCountStored     = Number(localStorage.getItem('luckstar_usedCount')   || '0');
+  const sharedCountStored   = Number(localStorage.getItem('luckstar_sharedCount') || '0');
+  const receiveCountStored  = Number(localStorage.getItem('luckstar_receiveCount')|| '0');
 
-  const [usedCount, setUsedCount] = useState(usedCountStored);
-  const sharedCount               = sharedCountStored;
+  const [usedCount,    setUsedCount]    = useState(usedCountStored);
+  const sharedCount                      = sharedCountStored;
+  const receiveCount                     = receiveCountStored;
 
   /* 잔여횟수 계산 */
-  const remainingCount = dailyLimit - usedCount + sharedCount;
+  const remainingCount = dailyLimit - usedCount + sharedCount + receiveCount;
 
   /* 로컬스토리지 초기값 (이름, 생년월일, 운세날짜) */
   const savedName        = localStorage.getItem('luckstar_name')    || '';
@@ -251,11 +255,12 @@ const HomePage: React.FC = () => {
             style={{
               width: '100%',            
               textAlign: 'center',       
-              margin: '1rem 0 -1.2rem', 
+              margin: '0rem 0 -1.1rem', 
               fontWeight: 500,           
               color: remainingCount > 0
                 ? '#22c55e'
-                : '#ef4444',
+                : '#dc2626',
+                textShadow: '0 1px 4px rgba(0, 0, 0, 0.5)',
             }}
           >
             * 오늘 남은 운세 기회: {remainingCount}회
