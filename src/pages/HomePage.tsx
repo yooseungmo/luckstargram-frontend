@@ -246,13 +246,16 @@ const HomePage: React.FC = () => {
             )}
           </div>
 
-          {/* 남은 생성 가능 횟수 (간격 축소 & 볼드체 & 색상 적용) */}
+          {/* 남은 생성 가능 횟수 */}
           <p
-            className="text-center text-sm"
             style={{
-              margin: '-0.5rem 0',
-              fontWeight: 500,
-              color: remainingCount > 0 ? '#22c55e' : '#ef4444',
+              width: '100%',            
+              textAlign: 'center',       
+              margin: '1rem 0 -1.2rem', 
+              fontWeight: 500,           
+              color: remainingCount > 0
+                ? '#22c55e'
+                : '#ef4444',
             }}
           >
             * 오늘 남은 운세 기회: {remainingCount}회
@@ -265,7 +268,7 @@ const HomePage: React.FC = () => {
           >
             {remainingCount > 0
               ? 'AI가 예측한 나의 운세 보기'
-              : '🔗 이전 결과 공유하고 기회 늘리기'}
+              : '🔗 이전 결과 공유하고, 기회 받기'}
           </button>
         </form>
 
