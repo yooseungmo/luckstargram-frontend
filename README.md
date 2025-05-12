@@ -1,54 +1,50 @@
-# React + TypeScript + Vite
+<p align="center">
+  <img width="450" alt="logo" src="https://github.com/user-attachments/assets/c14b85b4-0617-479c-ba2c-f4c4241db5b1"/>
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=nestjs,ts,mysql,aws,vercel,react,vite" alt="Tech Stack" />
+</p>
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# luckstargram-frontend
 
-## Expanding the ESLint configuration
+> AI가 예측한 나만의 운세를 바로 확인해보세요!
+> 
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 소개 (Overview)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+> LuckStargram은 이름과 생년월일을 입력하면,  
+> AI가 분석한 오늘의 운세를 알려주고, 바로 SNS로 공유할 수 있는  
+> 모바일 최적화 운세 웹서비스입니다.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 주요 기능 (Key Features)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- **Frontend**
+  - Vite + React
+  - Cursor AI
+  - Vercel
+- **Backend**
+  - NestJS + TypeScrip
+  - MySQL (Docker) + AWS RDS
+  - OpenAI API
+  - Lambda + API Gateway
+
+---
+
+## 아키텍처 (Architecture)
+
+<p align="left">
+  <img width="500" alt="logo" src="https://github.com/user-attachments/assets/b2c7bd8a-bf45-48d4-90b6-8869df6c668a"/>
+</p>
+
+---
+
+## 라이선스 (License)
+
+이 프로젝트는 [MIT License](./LICENSE)에 따라 배포 및 사용이 가능합니다.
+
+---
