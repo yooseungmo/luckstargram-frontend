@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    { "source": "/share/:uuid", "destination": "/api/share/:uuid" }
   ]
 }
