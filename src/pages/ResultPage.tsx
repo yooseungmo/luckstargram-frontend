@@ -68,7 +68,8 @@ const ResultPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const handleCopyLink = () => {
     const shareUrl = `https://luckstargram.com/share/${uuid}`;
-    const shareData = { title: 'LuckStargram 🍀', url: shareUrl };
+    const shareText = `AI가 예측한 나만의 운세를 지금 바로 확인해보세요 🍀`;
+    const shareData = { title: 'LuckStargram 🍀', text: shareText, url: shareUrl};
 
     const onSuccess = () => {
       setSharedCount(prev => {
@@ -82,11 +83,11 @@ const ResultPage: React.FC = () => {
 
     if (navigator.share) {
       navigator.share(shareData).then(onSuccess).catch(() => {
-        navigator.clipboard.writeText(shareUrl);
+        navigator.clipboard.writeText(shareText);
         onSuccess();
       });
     } else {
-      navigator.clipboard.writeText(shareUrl);
+      navigator.clipboard.writeText(shareText);
       onSuccess();
     }
   };
