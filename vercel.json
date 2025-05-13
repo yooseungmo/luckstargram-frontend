@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/share/:uuid",
-      "destination": "/api/share/:uuid"
+      "destination": "/api/prerender/share/:uuid"
     }
   ]
 }
