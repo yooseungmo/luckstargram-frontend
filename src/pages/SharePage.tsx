@@ -1,4 +1,3 @@
-// src/pages/SharePage.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -22,14 +21,14 @@ const SharePage: React.FC = () => {
   const [data,    setData]    = useState<ShareData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error,   setError]   = useState('');
-  const [showModal, setShowModal]       = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   // ─── 사용/공유/수신 횟수 ───
   const storedUsed    = Number(localStorage.getItem('luckstar_usedCount')   || '0');
   const storedShared  = Number(localStorage.getItem('luckstar_sharedCount') || '0');
   const storedReceive = Number(localStorage.getItem('luckstar_receiveCount')|| '0');
-  const sharedCount = storedShared;
-  const receiveCount                  = storedReceive;
+  const sharedCount   = storedShared;
+  const receiveCount  = storedReceive;
 
   // ─── 남은 횟수 계산 ───
   const dailyLimit     = 1;
@@ -49,6 +48,31 @@ const SharePage: React.FC = () => {
       .then((json: ShareData) => {
         setData(json);
         setLoading(false);
+
+        // ─── 여기가 추가된 부분: 메타 태그 동적 갱신 ───
+        const dateObj = new Date(json.fortune_date);
+        const mm = dateObj.getMonth() + 1;
+        const dd = dateObj.getDate();
+        const nameOnly = json.name.length > 1 ? json.name.slice(1) : json.name;
+        const title = `${nameOnly}님의 ${mm}월 ${dd}일 운세 🍀`;
+        const firstSentence = json.message.split('. ')[0] + '.';
+        const description = `${firstSentence} AI가 예측한 운세를 확인해보세요!`;
+
+        document.title = title;
+
+        const setMeta = (selector: string, attr: string, value: string) => {
+          const el = document.querySelector(selector);
+          if (el) el.setAttribute(attr, value);
+        };
+
+        setMeta('meta[property="og:title"]', 'content', title);
+        setMeta('meta[name="twitter:title"]', 'content', title);
+
+        setMeta('meta[property="og:description"]', 'content', description);
+        setMeta('meta[name="description"]', 'content', description);
+        setMeta('meta[name="twitter:description"]', 'content', description);
+        // ────────────────────────────────────────────────
+
       })
       .catch(err => {
         console.error(err);
@@ -70,15 +94,14 @@ const SharePage: React.FC = () => {
     }
   };
 
-  // 3) “나의 운세 보러가기” 클릭 → 수신 횟수 +1 (최초 한 번만), 모달, 홈 이동
+  // 3) “나의 운세 보러가기” → 티켓 받은 후 홈
   const handleReceive = () => {
     if (!paramUuid) return navigate('/');
     const claimKey = `luckstar_receiveClaimed_${paramUuid}`;
     if (!localStorage.getItem(claimKey)) {
-      const next = receiveCount + 1;
-      localStorage.setItem('luckstar_receiveCount', String(next));
-      setShowModal(true);
+      localStorage.setItem('luckstar_receiveCount', String(receiveCount + 1));
       localStorage.setItem(claimKey, '1');
+      setShowModal(true);
       setTimeout(() => {
         setShowModal(false);
         navigate('/');
