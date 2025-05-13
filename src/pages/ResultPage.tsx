@@ -46,10 +46,19 @@ const ResultPage: React.FC = () => {
 
   // ─── 새로고침 시 홈으로 리다이렉트 ───
   useEffect(() => {
-    if (!location.state) navigate('/', { replace: true });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+        if (!location.state) {
+         // 이전에 본 결과가 로컬에 남아 있으면 복원
+          const saved = localStorage.getItem('luckstar_lastResult');
+          if (saved) {
+            const data = JSON.parse(saved);
+          navigate('/result', { replace: true, state: data });
+          } else {
+           // 없으면 홈으로
+            navigate('/', { replace: true });
+          }
+        }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
   // ─── 날짜 파싱 ───
   const dateObj = fortune_date ? new Date(fortune_date) : new Date();
   const month   = dateObj.getMonth() + 1;
