@@ -121,7 +121,7 @@ const SharePage: React.FC = () => {
   const title       = `${nameOnly}님의 ${month}월 ${day}일 운세 🍀`;
   const firstSentence = message.split('. ')[0] + '.';
   const description = `${firstSentence} AI가 예측한 운세를 지금 확인해보세요!`;
-  const imageUrl    = '/public/logo.png';
+  const imageUrl    = `${window.location.origin}/logo.png`;
   const shareUrl    = `https://luckstargram.com/share/${uuid}`;
 
   return (
