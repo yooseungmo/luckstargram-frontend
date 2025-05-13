@@ -47,6 +47,7 @@ const ResultPage: React.FC = () => {
   // ─── 새로고침 시 홈으로 리다이렉트 ───
   useEffect(() => {
     if (!location.state) navigate('/', { replace: true });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ─── 날짜 파싱 ───
@@ -124,17 +125,19 @@ const ResultPage: React.FC = () => {
           </p>
         </div>
 
-        {/* 남은 횟수 */}
         <p
-          className="w-full text-center text-sm font-semibold"
+          className="animate-pulse-soft"
           style={{
-            margin: '0.1rem 0 0.5rem 0', 
-            fontWeight: 500,
-            color: remainingCount > 0 ? '#22c55e' : '#dc2626',
-            textShadow: '0 1px 4px rgba(0, 0, 0, 0.5)',
+            width: '100%',
+            textAlign: 'center',
+            margin: '0.5rem 0 0.5rem 0', 
+            fontWeight: 600,
+            fontSize: '15px',
+            color: remainingCount > 0 ? '#6ee7b7' : '#f43f5e',
+            textShadow: '0 1px 3px rgba(0, 0, 0, 0.5)',
           }}
         >
-          * 오늘 남은 운세 기회: {remainingCount}회
+          🎟️ 보유 티켓 x {remainingCount}장
         </p>
 
         {/* 공유 버튼 */}
@@ -142,14 +145,35 @@ const ResultPage: React.FC = () => {
           onClick={handleCopyLink}
           className="fortune-btn fixed-width-btn mb-4"
         >
-          🔗 운세 결과 공유하고, 기회 받기
+          🔗 운세 결과 공유하고, 티켓 받기
         </button>
 
         {/* 모달 */}
         <Modal
           isOpen={showModal}
-          message="🎉 공유 완료! 운세 생성 기회가 늘어났어요!"
+          message={
+            <span>
+              <strong>🎁 공유 완료! 티켓 한 장이 선물로 도착했어요!</strong>
+            </span>
+          }
         />
+
+        {/* 티켓 안내 */}
+        <div
+          className="self-start w-full text-left text-xs text-gray-500 mb-4"
+          style={{
+            alignSelf: 'flex-start',
+            margin: '0.8rem 0 0.8rem',
+            fontWeight: 200,
+            fontSize: '0.72rem',
+            lineHeight: 1.4,
+            color: '#6B7280',
+          }}
+        >
+          <strong className="block mb-1"># 티켓 안내</strong> <br/>
+          • 하루 1장 기본 제공 · 공유 및 링크 통해 추가 획득 가능<br/>
+          • 티켓은 매일 자정에 초기화돼요.
+        </div>
 
         {/* Contact 링크 */}
         <a

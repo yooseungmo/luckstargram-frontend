@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx
 import 'animate.css';
 import React, {
   memo,
@@ -22,42 +21,43 @@ const ENGLISH_REGEX = /^[A-Za-z]+$/;
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const logoRef  = useRef<HTMLImageElement | null>(null);
+  const logoRef = useRef<HTMLImageElement | null>(null);
+  const ticketRef = useRef<HTMLParagraphElement | null>(null);
 
   /* 오늘 날짜 */
-  const now      = new Date();
-  const yearStr  = String(now.getFullYear());
+  const now = new Date();
+  const yearStr = String(now.getFullYear());
   const todayStr = `${yearStr}-${pad(now.getMonth() + 1)}-${pad(
     now.getDate(),
   )}`;
 
   /* usedCount / sharedCount / receiveCount */
-  const dailyLimit          = 1;
-  const usedCountStored     = Number(localStorage.getItem('luckstar_usedCount')   || '0');
-  const sharedCountStored   = Number(localStorage.getItem('luckstar_sharedCount') || '0');
-  const receiveCountStored  = Number(localStorage.getItem('luckstar_receiveCount')|| '0');
+  const dailyLimit = 1;
+  const usedCountStored = Number(localStorage.getItem('luckstar_usedCount') || '0');
+  const sharedCountStored = Number(localStorage.getItem('luckstar_sharedCount') || '0');
+  const receiveCountStored = Number(localStorage.getItem('luckstar_receiveCount') || '0');
 
-  const [usedCount,    setUsedCount]    = useState(usedCountStored);
-  const sharedCount                      = sharedCountStored;
-  const receiveCount                     = receiveCountStored;
+  const [usedCount, setUsedCount] = useState(usedCountStored);
+  const sharedCount = sharedCountStored;
+  const receiveCount = receiveCountStored;
 
   /* 잔여횟수 계산 */
   const remainingCount = dailyLimit - usedCount + sharedCount + receiveCount;
 
   /* 로컬스토리지 초기값 (이름, 생년월일, 운세날짜) */
-  const savedName        = localStorage.getItem('luckstar_name')    || '';
-  const savedBirth       = localStorage.getItem('luckstar_birth')   || '';
+  const savedName = localStorage.getItem('luckstar_name') || '';
+  const savedBirth = localStorage.getItem('luckstar_birth') || '';
   const savedFortuneDate = localStorage.getItem('luckstar_fortune') || '';
-  const initialName      = location.state?.name      || savedName;
-  const initialBirth     = location.state?.birthDate || savedBirth;
-  const initialFortune   =
+  const initialName = location.state?.name || savedName;
+  const initialBirth = location.state?.birthDate || savedBirth;
+  const initialFortune =
     savedFortuneDate === todayStr ? savedFortuneDate : todayStr;
 
   /* 폼 상태 */
-  const [name,          setName]        = useState(initialName);
-  const [birthDate,     setBirthDate]   = useState(initialBirth);
-  const [fortuneDate,   setFortuneDate] = useState(initialFortune);
-  const [isLoading,     setIsLoading]   = useState(false);
+  const [name, setName] = useState(initialName);
+  const [birthDate, setBirthDate] = useState(initialBirth);
+  const [fortuneDate, setFortuneDate] = useState(initialFortune);
+  const [isLoading, setIsLoading] = useState(false);
   const [showNameError, setShowNameError] = useState(false);
   const [showDateError, setShowDateError] = useState(false);
 
@@ -104,6 +104,15 @@ const HomePage: React.FC = () => {
       setShowDateError(true);
       setTimeout(() => setShowDateError(false), 3500);
       return;
+    }
+
+    // 티켓 찢기 애니메이션
+    if (ticketRef.current) {
+      const el = ticketRef.current;
+      el.classList.remove('animate__animated', 'animate__zoomOutUp');
+      void el.offsetWidth;
+      el.classList.add('animate__animated', 'animate__zoomOutUp');
+      await new Promise(r => setTimeout(r, 1000));
     }
 
     setIsLoading(true);
@@ -252,18 +261,19 @@ const HomePage: React.FC = () => {
 
           {/* 남은 생성 가능 횟수 */}
           <p
+            ref={ticketRef}
+            className={ 'animate-pulse-soft' }
             style={{
-              width: '100%',            
-              textAlign: 'center',       
-              margin: '0rem 0 -1.1rem', 
-              fontWeight: 500,           
-              color: remainingCount > 0
-                ? '#22c55e'
-                : '#dc2626',
-                textShadow: '0 1px 4px rgba(0, 0, 0, 0.5)',
+              width: '100%',
+              textAlign: 'center',
+              margin: '0.3rem 0 -1.1rem',
+              fontWeight: 600,
+              fontSize: '15px',
+              color: remainingCount > 0 ? '#6ee7b7' : '#f43f5e',
+              textShadow: '0 1px 3px rgba(0, 0, 0, 0.5)',
             }}
           >
-            * 오늘 남은 운세 기회: {remainingCount}회
+            🎟️ 보유 티켓 x {remainingCount}장
           </p>
 
           {/* 운세 생성 or 이전결과 보기 */}
@@ -272,9 +282,26 @@ const HomePage: React.FC = () => {
             className="fortune-btn fixed-width-btn transform transition hover:scale-105 active:scale-95"
           >
             {remainingCount > 0
-              ? 'AI가 예측한 나의 운세 보기'
-              : '🔗 이전 결과 공유하고, 기회 받기'}
+              ? 'AI가 예측한 나만의 운세 보기'
+              : '🔗 이전 결과 공유하고, 티켓 받기'}
           </button>
+
+          {/* 티켓 안내 */}
+          <div
+            className="w-full text-left text-xs text-gray-500 mb-4"
+            style={{
+              margin: '-1rem 0 0.5rem',
+              fontWeight: 200,
+              fontSize: '0.72rem',
+              lineHeight: 1.4,
+              color: '#6B7280', 
+            }}
+          >
+            <strong className="block mb-1"># 티켓 안내</strong> <br/>
+            • 하루 1장 기본 제공 · 공유 및 링크 통해 추가 획득 가능<br />
+            • 티켓은 매일 자정에 초기화돼요.
+          </div>
+
         </form>
 
         <a
