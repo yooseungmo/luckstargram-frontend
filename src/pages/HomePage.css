@@ -22,10 +22,22 @@ body{ font-family:'Rubik',sans-serif; }
 
 /* ───────── 메인 프레임 ───────── */
 .frame{
-  width:100%;max-width:430px;min-width:360px;margin:0 auto;
-  height:100vh;box-sizing:border-box;
-  padding:2rem 1.5rem;display:flex;flex-direction:column;align-items:center;
-  position:relative;z-index:1;
+  width: 100%;
+  max-width: 430px;
+  min-width: 360px;
+  margin: 0 auto;
+
+  /* 고정 높이 대신 max-height + 스크롤 허용 */
+  max-height: 100vh;
+  overflow-y: auto;
+
+  box-sizing: border-box;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
 }
 /* PC(≥430px) : 폭 고정 */
 @media (min-width:430px){
@@ -81,7 +93,7 @@ input[type='date']{
   outline:none;
 }
 
-/* ───────── date‑input ───────── */
+/* ───────── date-input ───────── */
 input[type='date']{
   width:100%;
   background:transparent;
@@ -166,25 +178,13 @@ input[type='date']{
   }
 }
 
+/* ───────── 애니메이션 등 기타 ───────── */
 @keyframes pulse-soft {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
 }
-
-.animate-pulse-soft {
-  animation: pulse-soft 1.5s ease-in-out infinite;
-}
-
+.animate-pulse-soft { animation: pulse-soft 1.5s ease-in-out infinite; }
 
 @keyframes tear {
   0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
@@ -192,26 +192,10 @@ input[type='date']{
   60%  { transform: translateY(4px) rotate(3deg); }
   100% { transform: scaleX(0) translateY(0); opacity: 0; }
 }
-
 .ticket-tear {
   animation: tear 0.8s ease-in-out forwards;
   display: inline-block;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .ticket-wrapper {
   display: flex;
@@ -222,7 +206,6 @@ input[type='date']{
   width: 160px;
   height: 48px;
 }
-
 .ticket-left,
 .ticket-right {
   width: 50%;
@@ -230,21 +213,13 @@ input[type='date']{
   background: url('/ticket.png') no-repeat center / cover;
   transition: transform 0.5s ease-out, opacity 0.4s;
 }
-
-.split .ticket-left {
-  transform: translateX(-120%) rotate(-10deg);
-  opacity: 0;
-}
-
-.split .ticket-right {
-  transform: translateX(120%) rotate(10deg);
-  opacity: 0;
-}
+.split .ticket-left { transform: translateX(-120%) rotate(-10deg); opacity: 0; }
+.split .ticket-right { transform: translateX(120%) rotate(10deg); opacity: 0; }
 
 /* 메시지 글씨 굵기 · 크기 · 중앙정렬 */
 .modal-message {
-  font-weight: 600;      /* 볼드 */
-  font-size: 1rem;    /* 약 20px */
+  font-weight: 600;
+  font-size: 1rem;
   text-align: center;
-  color: #6ee7b7;        /* 부모 색상(text-black) 상속 */
+  color: #6ee7b7;
 }
