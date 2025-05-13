@@ -1,10 +1,4 @@
 {
-  "version": 2,
-  "functions": {
-    "api/share/[uuid].js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "rewrites": [
     {
       "source": "/share/:uuid",
