@@ -12,6 +12,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "vercel-build": "npm install --legacy-peer-deps && npm run build",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
