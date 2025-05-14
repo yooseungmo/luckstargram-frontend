@@ -44,18 +44,31 @@ const HomePage: React.FC = () => {
   /* 잔여횟수 계산 */
   const remainingCount = dailyLimit - usedCount + sharedCount + receiveCount;
 
+  /* 초기값 계산 함수 */
+  const getInitialBirth = () => {
+    // 1) 라우터 state
+    const nav = (location.state as any);
+    if (nav?.birth_date) return nav.birth_date;
+    if (nav?.birthDate)   return nav.birthDate;
+    // 2) localStorage
+    try {
+      return localStorage.getItem('luckstar_birth') || '2000-01-01';
+    } catch {
+      return '2000-01-01';
+    }
+  };
+
   /* 로컬스토리지 초기값 (이름, 생년월일, 운세날짜) */
   const savedName = localStorage.getItem('luckstar_name') || '';
-  const savedBirth = localStorage.getItem('luckstar_birth') || '';
   const savedFortuneDate = localStorage.getItem('luckstar_fortune') || '';
   const initialName = location.state?.name || savedName;
-  const initialBirth = location.state?.birthDate || savedBirth;
+  const initialBirth = getInitialBirth();
   const initialFortune =
     savedFortuneDate === todayStr ? savedFortuneDate : todayStr;
 
   /* 폼 상태 */
   const [name, setName] = useState(initialName);
-  const [birthDate, setBirthDate] = useState(initialBirth);
+  const [birthDate, setBirthDate] = useState<string>(() => initialBirth);
   const [fortuneDate, setFortuneDate] = useState(initialFortune);
   const [isLoading, setIsLoading] = useState(false);
   const [showNameError, setShowNameError] = useState(false);

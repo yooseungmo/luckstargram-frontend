@@ -80,7 +80,7 @@ const ResultPage: React.FC = () => {
         return;
       }
       const shareUrl  = `https://share.luckstargram.com/${short_link}`;
-      const shareText = `AI가 예측한 운세를 확인해보세요 🍀\n\n${shareUrl}`;
+      const shareText = `AI가 예측한 운세를 확인해보세요!\n\n${shareUrl}`;
 
       // 3) Web Share API or Clipboard
       const onSuccess = () => {
