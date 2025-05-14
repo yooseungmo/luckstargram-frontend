@@ -20,6 +20,14 @@
 
 ---
 
+## 관련 레포지토리 (Repositories)
+
+- [LuckStargram Backend](https://github.com/yooseungmo/luckstargram-backend) — API 서버 & AI 운세 로직
+- [LuckStargram Frontend](https://github.com/yooseungmo/luckstargram-frontend) — 메인 UI & 사용자 인터랙션
+- [LuckStargram OG](https://github.com/yooseungmo/luckstargram-og) —  공유용 서브 도메인 & SSR Open Graph 메타태그
+
+---
+
 ## 주요 기능 (Key Features)
 
 ### 🥠 오늘의 운세 생성
@@ -39,7 +47,7 @@
 
 ---
 
-### 숏링크 공유 & SSR OG 메타태그
+### 🔗 숏링크 공유 & SSR OG 메타태그
 
 - `share.luckstargram.com/:code` 형태의 숏링크 발급 + 서브 도메인 구성
 - Next.js SSR 페이지에서 OG 메타태그를 동적으로 렌더링

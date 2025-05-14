@@ -42,9 +42,9 @@ const ResultPage: React.FC = () => {
   const handleLogoClick = () => {
     const el = logoRef.current;
     if (el) {
-      el.classList.remove('animate__jello');
+      el.classList.remove('jello');
       void el.offsetWidth;
-      el.classList.add('animate__jello');
+      el.classList.add('jello');
       setTimeout(() => navigate('/', { state: { name, birth_date } }), 400);
     } else {
       navigate('/', { state: { name, birth_date } });
@@ -118,7 +118,7 @@ const ResultPage: React.FC = () => {
       <div className="frame relative flex flex-col items-center pt-8">
         {/* 로고 */}
         <button onClick={handleLogoClick} className="logo-button focus:outline-none transform transition hover:scale-105 active:scale-95 mb-2">
-          <img ref={logoRef} src="/main.png" alt="LuckStargram" className="logo-img animate__animated" />
+          <img ref={logoRef} src="/main.webp" alt="LuckStargram" className="logo-img animate__animated" />
         </button>
 
         {/* 타이틀 */}

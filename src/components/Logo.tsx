@@ -4,7 +4,7 @@ const Logo = () => {
   return (
     <Link to="/" className="flex justify-center items-center">
       <img 
-        src="/logo.png" 
+        src="/logo.webp" 
         alt="LuckStargram" 
         className="h-12 w-auto"
       />

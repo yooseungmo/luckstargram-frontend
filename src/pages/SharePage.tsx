@@ -61,9 +61,9 @@ const SharePage: React.FC = () => {
   const handleLogoClick = () => {
     const el = logoRef.current;
     if (el) {
-      el.classList.remove('animate__jello');
+      el.classList.remove('jello');
       void el.offsetWidth;
-      el.classList.add('animate__jello');
+      el.classList.add('jello');
       setTimeout(() => navigate('/'), 400);
     } else {
       navigate('/');
@@ -121,7 +121,7 @@ const SharePage: React.FC = () => {
   const title       = `${nameOnly}님의 ${month}월 ${day}일 운세 🍀`;
   const firstSentence = message.split('. ')[0] + '.';
   const description = `${firstSentence} AI가 예측한 운세를 지금 확인해보세요!`;
-  const imageUrl    = `${window.location.origin}/logo.png`;
+  const imageUrl    = `${window.location.origin}/logo.webp`;
   const shareUrl    = `https://luckstargram.com/share/${uuid}`;
 
   return (
@@ -150,7 +150,7 @@ const SharePage: React.FC = () => {
           >
             <img
               ref={logoRef}
-              src="/main.png"
+              src="/main.webp"
               alt="LuckStargram"
               className="logo-img animate__animated"
             />

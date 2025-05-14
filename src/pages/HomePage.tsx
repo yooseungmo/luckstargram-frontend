@@ -1,7 +1,7 @@
 // src/pages/HomePage.tsx
-import 'animate.css';
 import React, {
   memo,
+  Suspense,
   useCallback,
   useEffect,
   useMemo,
@@ -11,8 +11,9 @@ import React, {
 import Picker from 'react-mobile-picker';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useMedia from 'use-media';
-import LoadingSpinner from '../components/LoadingSpinner';
 import './HomePage.css';
+
+const LoadingSpinner = React.lazy(() => import('../components/LoadingSpinner'));
 
 function pad(n: number) {
   return String(n).padStart(2, '0');
@@ -125,9 +126,9 @@ const HomePage: React.FC = () => {
   const animateLogo = useCallback(() => {
     const el = logoRef.current;
     if (el) {
-      el.classList.remove('animate__jello');
+      el.classList.remove('jello');
       void el.offsetWidth;
-      el.classList.add('animate__jello');
+      el.classList.add('jello');
     }
   }, []);
 
@@ -162,9 +163,9 @@ const HomePage: React.FC = () => {
     // 티켓 찢기 애니메이션
     if (ticketRef.current) {
       const el = ticketRef.current;
-      el.classList.remove('animate__animated', 'animate__zoomOutUp');
+      el.classList.remove('zoomOutUp');
       void el.offsetWidth;
-      el.classList.add('animate__animated', 'animate__zoomOutUp');
+      el.classList.add('zoomOutUp');
       await new Promise(r => setTimeout(r, 1000));
     }
 
@@ -217,7 +218,7 @@ const HomePage: React.FC = () => {
           >
             <img
               ref={logoRef}
-              src="/main.png"
+              src="/main.webp"
               alt="LuckStargram"
               className="logo-img animate__animated"
             />
@@ -243,9 +244,12 @@ const HomePage: React.FC = () => {
             <div className="h-10 bg-white/20 rounded w-2/3 mx-auto" />
           </div>
           <div className="mt-12 flex flex-col items-center">
-            <LoadingSpinner />
+            {/* Suspense로 Lazy 로드된 스피너 감싸기 */}
+            <Suspense fallback={<div className="spinner-placeholder" />}>
+              <LoadingSpinner />
+            </Suspense>
             <div className="loader mt-8" />
-            <p className="loader-message text-white text-5xl font-semibold animate__animated animate__fadeInUp">
+            <p className="loader-message text-white text-5xl font-semibold">
               AI가 열심히 예측 중이에요...
             </p>
           </div>
