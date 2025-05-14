@@ -13,7 +13,7 @@ body{ font-family:'Rubik',sans-serif; }
 .fortune-bg::after{
   content:'';position:absolute;inset:0;
   background:url('/star-overlay.jpg') repeat;
-  opacity:.5;animation:drift-stars 200s linear infinite;
+  opacity:.4;animation:drift-stars 200s linear infinite;
   pointer-events:none;
 }
 @keyframes drift-stars{
@@ -80,7 +80,7 @@ input[type='date']{
 .fortune-input{
   width:100%;
   background:transparent;
-  border:none;                             
+  border: 1px;                         
   border-bottom:1.5px solid #c7c7c7;      
   color:#fff;
   padding:.5rem 0;
@@ -222,4 +222,109 @@ input[type='date']{
   font-size: 1rem;
   text-align: center;
   color: #6ee7b7;
+}
+
+.custom-date-input {
+  width: 100%;
+  padding: 8px 4px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(212, 209, 209, 0.743);
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: none;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0; /* 굴곡 완전 제거!!! */
+}
+
+.custom-date-input:focus {
+  border-bottom: 1.5px solid white;
+}
+
+/* 백드롭 */
+.backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 10;
+}
+
+/* 하단 시트 */
+.bottom-sheet {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #111;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  z-index: 11;
+  display: flex; flex-direction: column;
+  overscroll-behavior: contain;
+}
+
+/* 시트 헤더 */
+.sheet-header {
+  display: flex; justify-content: space-between;
+  padding: .5rem 1rem;
+  border-bottom: 1px solid #b6b7b766;
+}
+.sheet-header button {
+  background: none; border: none;
+  color: #6ee7b7; font-size: 1rem;
+}
+
+/* 휠 피커 래퍼 */
+.picker-wrap {
+  overflow-y: scroll;                 /* 수직 스크롤 허용 */
+  scroll-snap-type: y mandatory;      /* 수직 스냅 적용 */
+}
+
+/* iOS 모멘텀 + 부드러운 스크롤 */
+.custom-picker .wheel {
+  -webkit-overflow-scrolling: touch;   /* 기존 모멘텀 */
+  scroll-behavior: smooth;            /* 부드러운 스크롤 애니메이션 */
+}
+
+.custom-picker .wheel > div {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;   
+   /* 스냅 위치에서 확실히 멈춤 */
+}
+
+/* indicator */
+.picker-indicator {
+  position: absolute; top: calc(50% - 25px);
+  left: 0; width: 100%; height: 50px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px; pointer-events: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    inset 0 -1px 0 rgba(0,0,0,0.2);
+}
+
+/* 트리거 버튼 */
+.date-trigger {
+  width: 100%; padding: .6rem 0;
+  background: transparent;
+  border: 1px solid #c7c7c7;
+  border-radius: .4rem;
+  color: #fff; text-align: center; font-size: 1rem;
+}
+
+/* 티켓 텍스트 */
+.ticket-text { font-size: .9rem; }
+.ticket-info { font-size: .7rem; color: #aaa; margin: .2rem 0 1rem; }
+
+.custom-picker .wheel > div {
+  scroll-snap-align: center;          /* 각 옵션이 중앙에 스냅 */
+}
+
+body.modal-open {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  overscroll-behavior: none; /* 터치 오버스크롤도 차단 */
 }

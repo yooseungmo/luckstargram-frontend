@@ -1,3 +1,4 @@
+// src/pages/HomePage.tsx
 import 'animate.css';
 import React, {
   memo,
@@ -7,13 +8,19 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import Picker from 'react-mobile-picker';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useMedia from 'use-media';
 import LoadingSpinner from '../components/LoadingSpinner';
 import './HomePage.css';
 
 function pad(n: number) {
   return String(n).padStart(2, '0');
 }
+const isLeap = (y: number) =>
+  (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
+const maxDays = (y: number, m: number) =>
+  m === 2 ? (isLeap(y) ? 29 : 28) : [4,6,9,11].includes(m) ? 30 : 31;
 
 const KOREAN_REGEX = /^[가-힣]+$/;
 const ENGLISH_REGEX = /^[A-Za-z]+$/;
@@ -43,43 +50,76 @@ const HomePage: React.FC = () => {
 
   /* 잔여횟수 계산 */
   const remainingCount = dailyLimit - usedCount + sharedCount + receiveCount;
-
-  /* 초기값 계산 함수 */
-  const getInitialBirth = () => {
-    // 1) 라우터 state
-    const nav = (location.state as any);
-    if (nav?.birth_date) return nav.birth_date;
-    if (nav?.birthDate)   return nav.birthDate;
-    // 2) localStorage
-    try {
-      return localStorage.getItem('luckstar_birth') || '2000-01-01';
-    } catch {
-      return '2000-01-01';
-    }
-  };
-
-  /* 로컬스토리지 초기값 (이름, 생년월일, 운세날짜) */
-  const savedName = localStorage.getItem('luckstar_name') || '';
-  const savedFortuneDate = localStorage.getItem('luckstar_fortune') || '';
-  const initialName = location.state?.name || savedName;
-  const initialBirth = getInitialBirth();
-  const initialFortune =
-    savedFortuneDate === todayStr ? savedFortuneDate : todayStr;
+  
+  /* 초기값 */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const navState = (location.state as any) || {};
+  const initialName = navState.name || localStorage.getItem('luckstar_name') || '';
+  const rawBirth = navState.birth_date || navState.birthDate || localStorage.getItem('luckstar_birth') || '2000-01-01';
+  const savedFortune = localStorage.getItem('luckstar_fortune') || todayStr;
+  const initialFortune = savedFortune === todayStr ? savedFortune : todayStr;
 
   /* 폼 상태 */
   const [name, setName] = useState(initialName);
-  const [birthDate, setBirthDate] = useState<string>(() => initialBirth);
+  const [birthDate, setBirthDate] = useState<string>(() => rawBirth);
   const [fortuneDate, setFortuneDate] = useState(initialFortune);
   const [isLoading, setIsLoading] = useState(false);
   const [showNameError, setShowNameError] = useState(false);
   const [showDateError, setShowDateError] = useState(false);
+  /* Picker states */
+  const [birth, setBirth] = useState({
+    year:  Number(rawBirth.slice(0,4)),
+    month: Number(rawBirth.slice(5,7)),
+    day:   Number(rawBirth.slice(8,10)),
+  });
+  const [fortune, setFortune] = useState({
+    year:  Number(initialFortune.slice(0,4)),
+    month: Number(initialFortune.slice(5,7)),
+    day:   Number(initialFortune.slice(8,10)),
+  });
+  const [birthDays, setBirthDays] = useState<number[]>([]);
+  const [fortuneDays, setFortuneDays] = useState<number[]>([]);
 
-  /* 폼 입력 로컬 저장 */
+  /* 옵션 리스트 */
+  const currentYear = now.getFullYear();
+  const years = Array.from({ length: 101 }, (_, i) => currentYear - 100 + i);
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+
+  /* day 업데이트 */
   useEffect(() => {
-    if (name)        localStorage.setItem('luckstar_name',    name);
-    if (birthDate)   localStorage.setItem('luckstar_birth',   birthDate);
-    if (fortuneDate) localStorage.setItem('luckstar_fortune', fortuneDate);
-  }, [name, birthDate, fortuneDate]);
+    const md = maxDays(birth.year, birth.month);
+    setBirthDays(Array.from({ length: md }, (_, i) => i + 1));
+    if (birth.day > md) setBirth(prev => ({ ...prev, day: md }));
+    setBirthDate(`${birth.year}-${pad(birth.month)}-${pad(birth.day)}`);
+    localStorage.setItem('luckstar_birth', `${birth.year}-${pad(birth.month)}-${pad(birth.day)}`);
+  }, [birth]);
+
+  useEffect(() => {
+    const md = maxDays(fortune.year, fortune.month);
+    setFortuneDays(Array.from({ length: md }, (_, i) => i + 1));
+    if (fortune.day > md) setFortune(prev => ({ ...prev, day: md }));
+    setFortuneDate(`${fortune.year}-${pad(fortune.month)}-${pad(fortune.day)}`);
+    localStorage.setItem('luckstar_fortune', `${fortune.year}-${pad(fortune.month)}-${pad(fortune.day)}`);
+  }, [fortune]);
+
+  useEffect(() => { if (name) localStorage.setItem('luckstar_name', name); }, [name]);
+
+  const isMobile = useMedia({ maxWidth: '429px' });
+
+  /* Picker Modal 상태 */
+  const [showPicker, setShowPicker] = useState<null | 'birth' | 'fortune'>(null);
+
+  /* 바디 스크롤 잠그기 */
+  useEffect(() => {
+    if (showPicker) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [showPicker]);
 
   /* 로고 애니메이션 */
   const animateLogo = useCallback(() => {
@@ -228,7 +268,7 @@ const HomePage: React.FC = () => {
               type="text"
               value={name}
               onChange={e => setName(e.target.value)}
-              className="fortune-input"
+              className="custom-date-input"
               placeholder="이름을 입력하세요"
               required
             />
@@ -242,35 +282,57 @@ const HomePage: React.FC = () => {
           {/* 생년월일 */}
           <div className="fortune-input-wrap">
             <label className="fortune-label">생년월일</label>
+            {isMobile ? (
             <input
-              type="date"
-              value={birthDate}
-              onChange={e => setBirthDate(e.target.value)}
-              className="fortune-input"
-              min="1900-01-01"
-              max={todayStr}
-              required
-            />
+            type="text"
+            readOnly
+            value={`${birth.year}년 ${birth.month}월 ${birth.day}일`}
+            onClick={() => setShowPicker('birth')}
+            className="custom-date-input"
+          />
+          ) : (
+              // PC: 기존 date input
+              <input
+                type="date"
+                value={birthDate}
+                onChange={e => setBirthDate(e.target.value)}
+                className="custom-date-input"
+                min="1900-01-01"
+                max={todayStr}
+                required
+              />
+            )}
           </div>
 
           {/* 운세 날짜 */}
-          <div className="fortune-input-wrap relative">
-            <label className="fortune-label">운세 날짜</label>
+          {/* 운세 날짜 */}
+        <div className="fortune-input-wrap relative">
+          <label className="fortune-label">운세 날짜</label>
+          {isMobile ? (
+            // 모바일: WheelPicker 트리거
+            <input
+              type="text"
+              readOnly
+              value={`${fortune.year}년 ${fortune.month}월 ${fortune.day}일`}
+              onClick={() => setShowPicker('fortune')}
+              className="custom-date-input"
+            />
+          ) : (
+            // PC: 기존 date input
             <input
               type="date"
               value={fortuneDate}
               onChange={e => setFortuneDate(e.target.value)}
-              className="fortune-input"
+              className="custom-date-input"
               min={`${yearStr}-01-01`}
               max={`${yearStr}-12-31`}
               required
             />
-            {showDateError && (
-              <span className="fortune-error">
-                * 올해 날짜만 선택할 수 있어요.
-              </span>
-            )}
-          </div>
+          )}
+          {showDateError && (
+            <span className="fortune-error">* 올해 날짜만 선택할 수 있어요.</span>
+          )}
+        </div>
 
           {/* 남은 생성 가능 횟수 */}
           <p
@@ -326,6 +388,53 @@ const HomePage: React.FC = () => {
           Contact.
         </a>
       </div>
+
+      {/* Picker Modal */}
+      {showPicker && (
+        <>
+          <div className="backdrop" onClick={() => setShowPicker(null)} />
+          <div className="bottom-sheet">
+            <div className="sheet-header">
+              <button onClick={() => setShowPicker(null)}>취소</button>
+              <button onClick={() => setShowPicker(null)}>확인</button>
+            </div>
+            <div className="picker-wrap">
+              <Picker
+                value={showPicker === 'birth' ? birth : fortune}
+                onChange={(v) => {
+                  const obj = v as { year: number; month: number; day: number };
+                  if (showPicker === 'birth') setBirth(obj);
+                  else setFortune(obj);
+                }}
+                wheelMode="normal"
+                className="custom-picker"
+              >
+                <Picker.Column name="year">
+                  {years.map((y) => (
+                    <Picker.Item key={y} value={y}>
+                      {() => <div>{y}년</div>}
+                    </Picker.Item>
+                  ))}
+                </Picker.Column>
+                <Picker.Column name="month">
+                  {months.map((m) => (
+                    <Picker.Item key={m} value={m}>
+                      {() => <div>{m}월</div>}
+                    </Picker.Item>
+                  ))}
+                </Picker.Column>
+                <Picker.Column name="day">
+                  {(showPicker === 'birth' ? birthDays : fortuneDays).map((d) => (
+                    <Picker.Item key={d} value={d}>
+                      {() => <div>{d}일</div>}
+                    </Picker.Item>
+                  ))}
+                </Picker.Column>
+              </Picker>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
