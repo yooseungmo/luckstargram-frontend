@@ -1,6 +1,6 @@
 {
   "name": "luckstargram-frontend",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "AI가 예측한 나만의 운세를 바로 확인해보세요!",
   "author": "Blanc (https://github.com/yooseungmo)",
   "license": "MIT",
@@ -27,8 +27,10 @@
     "react-dom": "^19.1.0",
     "react-helmet-async": "^2.0.5",
     "react-icons": "^5.5.0",
+    "react-mobile-picker": "^1.1.2",
     "react-router-dom": "^7.6.0",
-    "tailwindcss": "^4.1.6"
+    "tailwindcss": "^4.1.6",
+    "use-media": "^1.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
