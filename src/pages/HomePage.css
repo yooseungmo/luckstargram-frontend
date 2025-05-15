@@ -241,8 +241,9 @@ input[type='date']{
 }
 
 .custom-date-input {
+  box-sizing: border-box;   
   width: 100%;
-  padding: 8px 4px;
+  padding: 8px 12px;
   background-color: transparent;
   border: none;
   border-bottom: 1px solid rgba(212, 209, 209, 0.743);

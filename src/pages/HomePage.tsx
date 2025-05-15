@@ -105,7 +105,10 @@ const HomePage: React.FC = () => {
 
   useEffect(() => { if (name) localStorage.setItem('luckstar_name', name); }, [name]);
 
-  const isMobile = useMedia({ maxWidth: '429px' });
+  const isMobile = useMedia({
+      hover: 'none',
+      pointer: 'coarse'
+      });
 
   /* Picker Modal 상태 */
   const [showPicker, setShowPicker] = useState<null | 'birth' | 'fortune'>(null);
