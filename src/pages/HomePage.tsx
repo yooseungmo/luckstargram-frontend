@@ -21,12 +21,17 @@ function pad(n: number) {
 const isLeap = (y: number) =>
   (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
 const maxDays = (y: number, m: number) =>
-  m === 2 ? (isLeap(y) ? 29 : 28) : [4,6,9,11].includes(m) ? 30 : 31;
+  m === 2 ? (isLeap(y) ? 29 : 28) : [4, 6, 9, 11].includes(m) ? 30 : 31;
 
 const KOREAN_REGEX = /^[가-힣]+$/;
 const ENGLISH_REGEX = /^[A-Za-z]+$/;
 
 const HomePage: React.FC = () => {
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, []);
+
   const navigate = useNavigate();
   const location = useLocation();
   const logoRef = useRef<HTMLImageElement | null>(null);
@@ -35,9 +40,7 @@ const HomePage: React.FC = () => {
   /* 오늘 날짜 */
   const now = new Date();
   const yearStr = String(now.getFullYear());
-  const todayStr = `${yearStr}-${pad(now.getMonth() + 1)}-${pad(
-    now.getDate(),
-  )}`;
+  const todayStr = `${yearStr}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 
   /* usedCount / sharedCount / receiveCount */
   const dailyLimit = 1;
@@ -51,12 +54,16 @@ const HomePage: React.FC = () => {
 
   /* 잔여횟수 계산 */
   const remainingCount = dailyLimit - usedCount + sharedCount + receiveCount;
-  
+
   /* 초기값 */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const navState = (location.state as any) || {};
   const initialName = navState.name || localStorage.getItem('luckstar_name') || '';
-  const rawBirth = navState.birth_date || navState.birthDate || localStorage.getItem('luckstar_birth') || '2000-01-01';
+  const rawBirth =
+    navState.birth_date ||
+    navState.birthDate ||
+    localStorage.getItem('luckstar_birth') ||
+    '2000-01-01';
   const savedFortune = localStorage.getItem('luckstar_fortune') || todayStr;
   const initialFortune = savedFortune === todayStr ? savedFortune : todayStr;
 
@@ -69,14 +76,14 @@ const HomePage: React.FC = () => {
   const [showDateError, setShowDateError] = useState(false);
   /* Picker states */
   const [birth, setBirth] = useState({
-    year:  Number(rawBirth.slice(0,4)),
-    month: Number(rawBirth.slice(5,7)),
-    day:   Number(rawBirth.slice(8,10)),
+    year: Number(rawBirth.slice(0, 4)),
+    month: Number(rawBirth.slice(5, 7)),
+    day: Number(rawBirth.slice(8, 10)),
   });
   const [fortune, setFortune] = useState({
-    year:  Number(initialFortune.slice(0,4)),
-    month: Number(initialFortune.slice(5,7)),
-    day:   Number(initialFortune.slice(8,10)),
+    year: Number(initialFortune.slice(0, 4)),
+    month: Number(initialFortune.slice(5, 7)),
+    day: Number(initialFortune.slice(8, 10)),
   });
   const [birthDays, setBirthDays] = useState<number[]>([]);
   const [fortuneDays, setFortuneDays] = useState<number[]>([]);
@@ -92,7 +99,10 @@ const HomePage: React.FC = () => {
     setBirthDays(Array.from({ length: md }, (_, i) => i + 1));
     if (birth.day > md) setBirth(prev => ({ ...prev, day: md }));
     setBirthDate(`${birth.year}-${pad(birth.month)}-${pad(birth.day)}`);
-    localStorage.setItem('luckstar_birth', `${birth.year}-${pad(birth.month)}-${pad(birth.day)}`);
+    localStorage.setItem(
+      'luckstar_birth',
+      `${birth.year}-${pad(birth.month)}-${pad(birth.day)}`
+    );
   }, [birth]);
 
   useEffect(() => {
@@ -100,26 +110,25 @@ const HomePage: React.FC = () => {
     setFortuneDays(Array.from({ length: md }, (_, i) => i + 1));
     if (fortune.day > md) setFortune(prev => ({ ...prev, day: md }));
     setFortuneDate(`${fortune.year}-${pad(fortune.month)}-${pad(fortune.day)}`);
-    localStorage.setItem('luckstar_fortune', `${fortune.year}-${pad(fortune.month)}-${pad(fortune.day)}`);
+    localStorage.setItem(
+      'luckstar_fortune',
+      `${fortune.year}-${pad(fortune.month)}-${pad(fortune.day)}`
+    );
   }, [fortune]);
 
-  useEffect(() => { if (name) localStorage.setItem('luckstar_name', name); }, [name]);
+  useEffect(() => {
+    if (name) localStorage.setItem('luckstar_name', name);
+  }, [name]);
 
-  const isMobile = useMedia({
-      hover: 'none',
-      pointer: 'coarse'
-      });
+  const isMobile = useMedia({ hover: 'none', pointer: 'coarse' });
 
   /* Picker Modal 상태 */
   const [showPicker, setShowPicker] = useState<null | 'birth' | 'fortune'>(null);
 
   /* 바디 스크롤 잠그기 */
   useEffect(() => {
-    if (showPicker) {
-      document.body.classList.add('modal-open');
-    } else {
-      document.body.classList.remove('modal-open');
-    }
+    if (showPicker) document.body.classList.add('modal-open');
+    else document.body.classList.remove('modal-open');
     return () => {
       document.body.classList.remove('modal-open');
     };
@@ -143,27 +152,23 @@ const HomePage: React.FC = () => {
   /* 운세 생성 or 이전결과 */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // 남은횟수 0이면 이전결과 보기
     if (remainingCount <= 0) {
       handlePrev();
       return;
     }
-
-    // 이름 검증
     if (!KOREAN_REGEX.test(name) && !ENGLISH_REGEX.test(name)) {
       setShowNameError(true);
       setTimeout(() => setShowNameError(false), 3500);
       return;
     }
-    // 올해 벨리데이션
-    if (fortuneDate < `${yearStr}-01-01` || fortuneDate > `${yearStr}-12-31`) {
+    if (
+      fortuneDate < `${yearStr}-01-01` ||
+      fortuneDate > `${yearStr}-12-31`
+    ) {
       setShowDateError(true);
       setTimeout(() => setShowDateError(false), 3500);
       return;
     }
-
-    // 티켓 찢기 애니메이션
     if (ticketRef.current) {
       const el = ticketRef.current;
       el.classList.remove('zoomOutUp');
@@ -178,28 +183,20 @@ const HomePage: React.FC = () => {
     try {
       const qs = new URLSearchParams({
         name,
-        birth_date:   birthDate,
+        birth_date: birthDate,
         fortune_date: fortuneDate,
       }).toString();
-
       const res = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/fortune?${qs}`
       );
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
-
-      // ─── 로컬스토리지에 결과 저장 ───
       localStorage.setItem('luckstar_lastResult', JSON.stringify(data));
-
-      // 사용횟수 증가
       const newUsed = usedCount + 1;
       setUsedCount(newUsed);
       localStorage.setItem('luckstar_usedCount', String(newUsed));
-
-      // 최소 3초 로딩 보장
       const elapsed = Date.now() - start;
       if (elapsed < 3000) await new Promise(r => setTimeout(r, 3500 - elapsed));
-
       setIsLoading(false);
       navigate('/result', { state: data });
     } catch (err) {
@@ -223,7 +220,7 @@ const HomePage: React.FC = () => {
               ref={logoRef}
               src="/main.webp"
               alt="LuckStargram"
-              className="logo-img animate__animated"
+              className="logo-img"
             />
           </button>
           <p className="fortune-subtitle mb-6">
@@ -231,30 +228,31 @@ const HomePage: React.FC = () => {
           </p>
         </>
       )),
-    [animateLogo],
+    [animateLogo]
   );
 
   /* 로딩 화면 */
   if (isLoading) {
     return (
       <div className="fortune-bg">
-        <div className="frame relative flex flex-col items-center pt-8">
-          <Header />
-          <div className="animate-pulse space-y-4 w-full mt-4">
-            <div className="h-8 bg-white/20 rounded w-3/4 mx-auto" />
-            <div className="h-6 bg-white/20 rounded w-1/2 mx-auto" />
-            <div className="h-40 bg-white/20 rounded mx-4" />
-            <div className="h-10 bg-white/20 rounded w-2/3 mx-auto" />
-          </div>
-          <div className="mt-12 flex flex-col items-center">
-            {/* Suspense로 Lazy 로드된 스피너 감싸기 */}
-            <Suspense fallback={<div className="spinner-placeholder" />}>
-              <LoadingSpinner />
-            </Suspense>
-            <div className="loader mt-8" />
-            <p className="loader-message text-white text-5xl font-semibold">
-              AI가 열심히 예측 중이에요...
-            </p>
+        <div className="frame">
+          <div className="frame__inner relative flex flex-col items-center pt-8">
+            <Header />
+            <div className="animate-pulse space-y-4 w-full mt-4">
+              <div className="h-8 bg-white/20 rounded w-3/4 mx-auto" />
+              <div className="h-6 bg-white/20 rounded w-1/2 mx-auto" />
+              <div className="h-40 bg-white/20 rounded mx-4" />
+              <div className="h-10 bg-white/20 rounded w-2/3 mx-auto" />
+            </div>
+            <div className="mt-12 flex flex-col items-center">
+              <Suspense fallback={<div className="spinner-placeholder" />}>
+                <LoadingSpinner />
+              </Suspense>
+              <div className="loader mt-8" />
+              <p className="loader-message text-white text-5xl font-semibold">
+                AI가 열심히 예측 중이에요...
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -264,76 +262,72 @@ const HomePage: React.FC = () => {
   /* 입력 폼 */
   return (
     <div className="fortune-bg">
-      <div className="frame relative flex flex-col items-center pt-8">
-        <Header />
-
-        <form onSubmit={handleSubmit} className="fortune-form w-full">
-          {/* 이름 */}
-          <div className="fortune-input-wrap relative">
-            <label className="fortune-label">이름</label>
-            <input
-              type="text"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              className="custom-date-input"
-              placeholder="이름을 입력하세요"
-              required
-            />
-            {showNameError && (
-              <span className="fortune-error">
-                * 이름은 한글 또는 영문이여야 합니다.
-              </span>
-            )}
-          </div>
-
-          {/* 생년월일 */}
-          <div className="fortune-input-wrap">
-            <label className="fortune-label">생년월일</label>
-            {isMobile ? (
-            <input
-            type="text"
-            readOnly
-            value={`${birth.year}년 ${birth.month}월 ${birth.day}일`}
-            onClick={() => setShowPicker('birth')}
-            className="custom-date-input"
-          />
-          ) : (
-              // PC: 기존 date input
+      <div className="frame">
+        <div className="frame__inner relative flex flex-col items-center pt-8">
+          <Header />
+          <form onSubmit={handleSubmit} className="fortune-form w-full">
+            {/* 이름 */}
+            <div className="fortune-input-wrap relative">
+              <label className="fortune-label">이름</label>
               <input
-                type="date"
-                value={birthDate}
-                onChange={e => setBirthDate(e.target.value)}
+                type="text"
+                value={name}
+                onChange={e => setName(e.target.value)}
                 className="custom-date-input"
-                min="1900-01-01"
-                max={todayStr}
+                placeholder="이름을 입력하세요"
                 required
               />
-            )}
-          </div>
+              {showNameError && (
+                <span className="fortune-error">
+                  * 이름은 한글 또는 영문이여야 합니다.
+                </span>
+              )}
+            </div>
 
-          {/* 운세 날짜 */}
-          {/* 운세 날짜 */}
-        <div className="fortune-input-wrap relative">
-          <label className="fortune-label">운세 날짜</label>
-          {isMobile ? (
-            // 모바일: WheelPicker 트리거
-            <input
-              type="text"
-              readOnly
-              value={`${fortune.year}년 ${fortune.month}월 ${fortune.day}일`}
-              onClick={() => setShowPicker('fortune')}
-              className="custom-date-input"
-            />
-          ) : (
-            // PC: 기존 date input
-            <input
-              type="date"
-              value={fortuneDate}
-              onChange={e => setFortuneDate(e.target.value)}
-              className="custom-date-input"
-              min={`${yearStr}-01-01`}
-              max={`${yearStr}-12-31`}
-              required
+            {/* 생년월일 */}
+            <div className="fortune-input-wrap">
+              <label className="fortune-label">생년월일</label>
+              {isMobile ? (
+                <input
+                  type="text"
+                  readOnly
+                  value={`${birth.year}년 ${birth.month}월 ${birth.day}일`}
+                  onClick={() => setShowPicker('birth')}
+                  className="custom-date-input"
+                />
+              ) : (
+                <input
+                  type="date"
+                  value={birthDate}
+                  onChange={e => setBirthDate(e.target.value)}
+                  className="custom-date-input"
+                  min="1900-01-01"
+                  max={todayStr}
+                  required
+                />
+              )}
+            </div>
+
+            {/* 운세 날짜 */}
+            <div className="fortune-input-wrap relative">
+              <label className="fortune-label">운세 날짜</label>
+              {isMobile ? (
+                <input
+                  type="text"
+                  readOnly
+                  value={`${fortune.year}년 ${fortune.month}월 ${fortune.day}일`}
+                  onClick={() => setShowPicker('fortune')}
+                  className="custom-date-input"
+                />
+              ) : (
+                <input
+                  type="date"
+                  value={fortuneDate}
+                  onChange={e => setFortuneDate(e.target.value)}
+                  className="custom-date-input"
+                  min={`${yearStr}-01-01`}
+                  max={`${yearStr}-12-31`}
+                  required
             />
           )}
           {showDateError && (
@@ -395,6 +389,7 @@ const HomePage: React.FC = () => {
           Contact.
         </a>
       </div>
+      </div>
 
       {/* Picker Modal */}
       {showPicker && (
@@ -442,7 +437,7 @@ const HomePage: React.FC = () => {
           </div>
         </>
       )}
-    </div>
+    </div> 
   );
 };
 

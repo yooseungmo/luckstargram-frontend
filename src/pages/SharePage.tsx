@@ -90,9 +90,11 @@ const SharePage: React.FC = () => {
   if (loading) {
     return (
       <div className="fortune-bg">
-        <div className="frame relative flex flex-col items-center pt-8">
+        <div className="frame">
+        <div className="frame__inner relative flex flex-col items-center pt-8">
           <LoadingSpinner />
         </div>
+      </div>
       </div>
     );
   }
@@ -100,7 +102,8 @@ const SharePage: React.FC = () => {
   if (error || !data) {
     return (
       <div className="fortune-bg">
-        <div className="frame relative flex flex-col items-center pt-8">
+        <div className="frame">
+        <div className="frame__inner relative flex flex-col items-center pt-8">
           <p className="text-white text-center">{error || '잘못된 접근입니다.'}</p>
           <button
             onClick={() => navigate('/')}
@@ -108,6 +111,7 @@ const SharePage: React.FC = () => {
           >
             메인으로 돌아가기
           </button>
+        </div>
         </div>
       </div>
     );
@@ -141,7 +145,8 @@ const SharePage: React.FC = () => {
         <meta name="twitter:image" content={imageUrl} />
       </Helmet>
       <div className="fortune-bg">
-        <div className="frame relative flex flex-col items-center pt-8">
+      <div className="frame">
+      <div className="frame__inner relative flex flex-col items-center pt-8">
           {/* 로고 & 애니메이션 */}
           <button
             type="button"
@@ -236,6 +241,7 @@ const SharePage: React.FC = () => {
             Contact.
           </a>
         </div>
+      </div>
       </div>
     </>
   );

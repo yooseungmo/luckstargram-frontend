@@ -24,7 +24,12 @@ body{ font-family:'Rubik',sans-serif; }
   background:url('/space.webp') center/cover no-repeat;
   min-height:100vh;
   display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;
+  position:relative;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* -webkit-overflow-scrolling: touch;  */
 }
 .fortune-bg::after{
   content:'';position:absolute;inset:0;
@@ -42,27 +47,57 @@ body{ font-family:'Rubik',sans-serif; }
   max-width: 430px;
   min-width: 360px;
   margin: 0 auto;
-
-  /* 고정 높이 대신 max-height + 스크롤 허용 */
   max-height: 100vh;
-  overflow-y: auto;
+  
+  /* ← frame 자체는 스크롤 잡지 않도록 제거 */
+  overflow: visible;
+  overscroll-behavior: none; /* fortune-bg 가 스크롤을 담당 */
 
+  padding: 0;
   box-sizing: border-box;
-  padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   z-index: 1;
 }
+
+.frame__inner {
+  box-sizing: border-box;       /* ← 여기 추가 */
+  width: 100%;   
+  padding: 2rem 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+}
+
+
 /* PC(≥430px) : 폭 고정 */
 @media (min-width:430px){
   .frame{ width:430px; }
 }
-/* 모바일(≤429px) : 유동폭 + 최소 360 */
-@media (max-width:429.98px){
-  .frame{ width:100%;min-width:360px; margin: 0 1.5rem }
+
+@media (max-width: 429.98px) {
+  .frame {
+    /* 화면 끝까지 꽉 채우고, 좌우 여백은 padding 으로 처리 */
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    min-width: unset;
+  }
+  .frame__inner {
+    /* 기존 1.5rem 대신 모바일에 맞춘 패딩 */
+    margin-top: -2rem; 
+    padding: 2rem 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
+
+
 
 /* ───────── 로고 & 타이틀 ───────── */
 .logo-button{background:transparent;border:none;padding:0;}
