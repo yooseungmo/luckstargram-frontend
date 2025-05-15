@@ -15,6 +15,21 @@
   display: inline-block;
 }
 
+body.modal-open {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+/* body.modal-open .fortune-bg, */
+body.modal-open .fortune-bg::after {
+  filter: none !important;     
+  /* background: transparent !important;  */
+}
+
 /* ───────── 기본 폰트 ───────── */
 body{ font-family:'Rubik',sans-serif; }
 
@@ -48,7 +63,10 @@ html, body, #root {
   position:absolute;
   inset:0;
   background:url('/star-overlay.webp') repeat;
-  opacity:.3;animation:drift-stars 200s linear infinite;
+  opacity:.3;
+  will-change: transform;               /* 브라우저에게 미리 알려서 GPU 레이어 분리 */
+  transform: translateZ(0);             /* GPU 가속 힌트 */
+  animation:drift-stars 200s linear infinite;
   pointer-events:none;
   filter: brightness(0.8); 
   z-index: -1;     
@@ -71,6 +89,8 @@ html, body, #root {
   height: 100%;           /* .fortune-bg 높이(=viewport) 꽉 채움 */
   margin: 0 auto;         /* PC에서는 가운데 고정 */
   overscroll-behavior: none; 
+  transform: translateZ(0);
+  will-change: transform;
 
   padding: 0;
   box-sizing: border-box;
@@ -89,12 +109,20 @@ html, body, #root {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   box-sizing: border-box; 
+  /* scroll-behavior: auto;             */
+  transform: translateZ(0);       /* GPU 레이어 분리 */
+  will-change: scroll-position;   /* 스크롤 위치에 최적화 시그널 */
+  backface-visibility: hidden;    /* 불필요한 페인트 방지 */
+  
   width: 100%;   
   padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
 
+.picker-wrap, .frame__inner {
+  -webkit-overflow-scrolling: touch; /* iOS 모멘텀 살리기 */
 }
 
 /* PC(≥430px) : 폭 고정 */
@@ -337,26 +365,49 @@ input[type='date']{
   padding: .5rem 1rem;
   border-bottom: 1px solid #b6b7b766;
 }
-.sheet-header button {
+.sheet-header button:active {
+  transform: scale(0.9);
   background: none; border: none;
   color: #6ee7b7; font-size: 1rem;
 }
 
+.sheet-header button {
+  background: transparent;
+  border: none;
+  color: #6ee7b7;
+  font-size: 1rem;
+  transition: transform 0.1s ease, color 0.2s ease; /* 부드러운 애니메이션 */
+  touch-action: manipulation;                      /* 터치 지연 방지 */
+}
+
 /* 휠 피커 래퍼 */
 .picker-wrap {
-  overflow-y: scroll;                 /* 수직 스크롤 허용 */
-  scroll-snap-type: y mandatory;      /* 수직 스냅 적용 */
+  height: 240px;               /* 보여줄 옵션 개수 × 개별 높이 */
+  overflow-y: scroll;         
+  -webkit-overflow-scrolling: touch; /* iOS 네이티브 모멘텀 */
+  overscroll-behavior: contain;      /* 내부 스크롤 한계시 페이지 전파 차단 */
+  touch-action: pan-y;               /* 세로 터치만 허용 */
+  scroll-snap-type: y mandatory;     /* 스냅 유지 */
+  
+  /* 성능 힌트 */
+  transform: translateZ(0);          /* GPU 레이어로 분리 */
+  will-change: scroll-position;      /* 브라우저에 스크롤 최적화 시그널 */
+}
+
+.bottom-sheet {
+  touch-action: none;         /* 바깥쪽 터치는 무시 */
 }
 
 /* iOS 모멘텀 + 부드러운 스크롤 */
 .custom-picker .wheel {
   -webkit-overflow-scrolling: touch;   /* 기존 모멘텀 */
-  scroll-behavior: smooth;            /* 부드러운 스크롤 애니메이션 */
+
 }
 
 .custom-picker .wheel > div {
   scroll-snap-align: center;
   scroll-snap-stop: always;   
+  height: 40px;  
    /* 스냅 위치에서 확실히 멈춤 */
 }
 

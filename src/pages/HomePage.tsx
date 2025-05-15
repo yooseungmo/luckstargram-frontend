@@ -27,6 +27,9 @@ const KOREAN_REGEX = /^[가-힣]+$/;
 const ENGLISH_REGEX = /^[A-Za-z]+$/;
 
 const HomePage: React.FC = () => {
+  
+  const pickerWrapRef = useRef<HTMLDivElement>(null);
+  const sheetHeaderRef = useRef<HTMLDivElement>(null); 
 
   // useEffect(() => {
   //   window.scrollTo(0, 0);
@@ -148,6 +151,36 @@ const HomePage: React.FC = () => {
   const handlePrev = () => {
     navigate('/result');
   };
+  
+   /* 바디 스크롤 잠그기 */
+    useEffect(() => {
+    if (showPicker) document.body.classList.add('modal-open');
+    else document.body.classList.remove('modal-open');
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [showPicker]);
+
+  /* 터치무브 제어: picker 외부 터치 시 스크롤 방지 */
+    useEffect(() => {
+    const handleTouchMove = (e: TouchEvent) => {
+      const target = e.target as Node;
+      const inPicker = pickerWrapRef.current?.contains(target);
+      const inHeader = sheetHeaderRef.current?.contains(target);
+      if (!inPicker && !inHeader) {
+        e.preventDefault();
+      }
+    };
+
+    if (showPicker) {
+      document.body.addEventListener('touchmove', handleTouchMove, { passive: false });
+    } else {
+      document.body.removeEventListener('touchmove', handleTouchMove);
+    }
+    return () => {
+      document.body.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [showPicker]);
 
   /* 운세 생성 or 이전결과 */
   const handleSubmit = async (e: React.FormEvent) => {
@@ -396,11 +429,14 @@ const HomePage: React.FC = () => {
         <>
           <div className="backdrop" onClick={() => setShowPicker(null)} />
           <div className="bottom-sheet">
-            <div className="sheet-header">
+            {/* sheet-header */}
+            <div className="sheet-header" ref={sheetHeaderRef}>
               <button onClick={() => setShowPicker(null)}>취소</button>
               <button onClick={() => setShowPicker(null)}>확인</button>
             </div>
-            <div className="picker-wrap">
+
+            {/* picker-wrap */}
+            <div className="picker-wrap" ref={pickerWrapRef}>
               <Picker
                 value={showPicker === 'birth' ? birth : fortune}
                 onChange={(v) => {
