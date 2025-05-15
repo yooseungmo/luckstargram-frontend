@@ -116,7 +116,7 @@ const ResultPage: React.FC = () => {
   return (
     <div className="fortune-bg">
       <div className="frame">
-      <div className="frame__inner relative flex flex-col items-center pt-8">
+      <div className="frame__inner">
         {/* 로고 */}
         <button onClick={handleLogoClick} className="logo-button focus:outline-none transform transition hover:scale-105 active:scale-95 mb-2">
           <img ref={logoRef} src="/main.webp" alt="LuckStargram" className="logo-img animate__animated" />

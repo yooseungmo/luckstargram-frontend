@@ -91,7 +91,7 @@ const SharePage: React.FC = () => {
     return (
       <div className="fortune-bg">
         <div className="frame">
-        <div className="frame__inner relative flex flex-col items-center pt-8">
+        <div className="frame__inner">
           <LoadingSpinner />
         </div>
       </div>
@@ -103,7 +103,7 @@ const SharePage: React.FC = () => {
     return (
       <div className="fortune-bg">
         <div className="frame">
-        <div className="frame__inner relative flex flex-col items-center pt-8">
+        <div className="frame__inner">
           <p className="text-white text-center">{error || '잘못된 접근입니다.'}</p>
           <button
             onClick={() => navigate('/')}
@@ -146,7 +146,7 @@ const SharePage: React.FC = () => {
       </Helmet>
       <div className="fortune-bg">
       <div className="frame">
-      <div className="frame__inner relative flex flex-col items-center pt-8">
+      <div className="frame__inner">
           {/* 로고 & 애니메이션 */}
           <button
             type="button"

@@ -15,27 +15,43 @@
   display: inline-block;
 }
 
-
 /* ───────── 기본 폰트 ───────── */
 body{ font-family:'Rubik',sans-serif; }
 
+/* 1) 루트 높이 확보 */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+} 
+
+
 /* ───────── 별 배경 ───────── */
 .fortune-bg{
-  background:url('/space.webp') center/cover no-repeat;
-  min-height:100vh;
+  background:
+  linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+  url('/space.webp') center/cover no-repeat;
+  /* min-height:100vh;  */
   display:flex;align-items:center;justify-content:center;
   position:relative;
-
   overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  /* -webkit-overflow-scrolling: touch;  */
+  overscroll-behavior: contain; 
+  overflow: hidden;
+  position: fixed;  
+  inset: 0;
+  filter: brightness(1.1); 
+  z-index: 0;
 }
 .fortune-bg::after{
-  content:'';position:absolute;inset:0;
+  content:'';
+  position:absolute;
+  inset:0;
   background:url('/star-overlay.webp') repeat;
-  opacity:.4;animation:drift-stars 200s linear infinite;
+  opacity:.3;animation:drift-stars 200s linear infinite;
   pointer-events:none;
+  filter: brightness(0.8); 
+  z-index: -1;     
 }
 @keyframes drift-stars{
   0%{background-position:0 0;}100%{background-position:-2000px -2000px;}
@@ -43,15 +59,18 @@ body{ font-family:'Rubik',sans-serif; }
 
 /* ───────── 메인 프레임 ───────── */
 .frame{
+  position: relative;
+  inset: 0;
   width: 100%;
   max-width: 430px;
   min-width: 360px;
   margin: 0 auto;
   max-height: 100vh;
-  
-  /* ← frame 자체는 스크롤 잡지 않도록 제거 */
-  overflow: visible;
-  overscroll-behavior: none; /* fortune-bg 가 스크롤을 담당 */
+  overflow-y: auto;  
+  width: 100vw;
+  height: 100%;           /* .fortune-bg 높이(=viewport) 꽉 채움 */
+  margin: 0 auto;         /* PC에서는 가운데 고정 */
+  overscroll-behavior: none; 
 
   padding: 0;
   box-sizing: border-box;
@@ -59,44 +78,48 @@ body{ font-family:'Rubik',sans-serif; }
   flex-direction: column;
   align-items: center;
   position: relative;
-  z-index: 1;
+  overflow: hidden;
+  z-index: 2;
 }
 
 .frame__inner {
-  box-sizing: border-box;       /* ← 여기 추가 */
+  z-index: 2;
+  flex: 1;                /* frame의 남은 높이 전부 차지 */
+  overflow-y: auto;       /* 내부만 스크롤 */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  box-sizing: border-box; 
   width: 100%;   
   padding: 2rem 1.5rem;
-
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  width: 100%;
 }
-
 
 /* PC(≥430px) : 폭 고정 */
 @media (min-width:430px){
-  .frame{ width:430px; }
+  .frame{ width:430px;
+    /* background-color: rgba(0, 0, 0, 0.4) */
+  }
+}
+@media (min-width: 430px) {
+  .fortune-bg {
+    background-size: 430px 
+  }
 }
 
 @media (max-width: 429.98px) {
   .frame {
-    /* 화면 끝까지 꽉 채우고, 좌우 여백은 padding 으로 처리 */
     width: 100vw;
+    min-width: 360px;
     margin: 0;
-    padding: 0;
-    min-width: unset;
   }
   .frame__inner {
-    /* 기존 1.5rem 대신 모바일에 맞춘 패딩 */
-    margin-top: -2rem; 
-    padding: 2rem 1rem;
-    width: 100%;
+    width: 100%; 
     box-sizing: border-box;
   }
 }
-
 
 
 /* ───────── 로고 & 타이틀 ───────── */
@@ -214,13 +237,6 @@ input[type='date']{
 .fortune-box-content{font-size:1rem;font-weight:500;line-height:1.6;margin-bottom:.3rem;}
 .fortune-box-divider{height:1px;background:rgba(255,255,255,.2);margin:1rem 0;}
 .fortune-box-tip{font-size:1rem;font-weight:500;}
-
-/* ───────── 모바일 폭 살짝 더 넓히기 ───────── */
-@media (max-width:429.98px){
-  .frame{
-    padding:2rem 1rem; 
-  }
-}
 
 /* ───────── 모바일 전용 이름 중앙정렬 ───────── */
 @media (max-width:429.98px){

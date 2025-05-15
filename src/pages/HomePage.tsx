@@ -236,7 +236,7 @@ const HomePage: React.FC = () => {
     return (
       <div className="fortune-bg">
         <div className="frame">
-          <div className="frame__inner relative flex flex-col items-center pt-8">
+          <div className="frame__inner">
             <Header />
             <div className="animate-pulse space-y-4 w-full mt-4">
               <div className="h-8 bg-white/20 rounded w-3/4 mx-auto" />
@@ -263,7 +263,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="fortune-bg">
       <div className="frame">
-        <div className="frame__inner relative flex flex-col items-center pt-8">
+        <div className="frame__inner">
           <Header />
           <form onSubmit={handleSubmit} className="fortune-form w-full">
             {/* 이름 */}
