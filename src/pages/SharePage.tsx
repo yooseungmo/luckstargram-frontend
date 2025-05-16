@@ -1,4 +1,4 @@
-import { Gift, Ticket } from 'lucide-react';
+import { Gift } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -206,8 +206,9 @@ const SharePage: React.FC = () => {
             onClick={handleReceive}
             className="fortune-btn fixed-width-btn mb-4"
           >
-            <Ticket className="icon" style={{ marginRight: '5px' }} />
-            티켓 받고, 나만의 운세 보러가기
+            {/* <Ticket className="icon" style={{ marginRight: '5px' }} /> */}
+            
+            <span className="btn-label">🎟️ 티켓 받고, 나만의 운세 보러가기</span>
           </button>
 
           {/* 수신 완료 모달 */}

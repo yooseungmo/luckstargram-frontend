@@ -313,8 +313,8 @@ input[type='date']{
 
 /* 메시지 글씨 굵기 · 크기 · 중앙정렬 */
 .modal-message {
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 550;
+  font-size: 0.9rem;
   text-align: center;
   color: #6ee7b7de;
 }
@@ -493,4 +493,14 @@ body.modal-open {
   position: relative;
   top: 4px; /* ✔ 아이콘 baseline 보정! */
   flex-shrink: 0;
+}
+
+.btn-label{  
+  font-size: 1.05rem;
+  font-weight: 550;
+}
+
+.btn-main-label{  
+  font-size: 1.1rem;
+  font-weight: 550;
 }

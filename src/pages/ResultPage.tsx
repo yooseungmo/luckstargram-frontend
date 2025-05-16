@@ -91,7 +91,7 @@ const ResultPage: React.FC = () => {
           return next;
         });
         setShowModal(true);
-        setTimeout(() => setShowModal(false), 5000);
+        setTimeout(() => setShowModal(false), 4000);
       };
 
       if (navigator.share) {
@@ -163,7 +163,7 @@ const ResultPage: React.FC = () => {
           className="fortune-btn-share fixed-width-btn transform transition hover:scale-105 active:scale-95"
         >
           <Share2 className="icon" style={{ marginRight: '5px' }} />
-            운세 결과 공유하고, 티켓 받기
+            <span className="btn-label">운세 결과 공유하고, 티켓 받기</span>
         </button>
 
         {/* 모달 */}

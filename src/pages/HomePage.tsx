@@ -1,6 +1,6 @@
 // src/pages/HomePage.tsx
 
-import { Clock, Share2 } from 'lucide-react';
+import { Share2 } from 'lucide-react';
 import React, {
   memo,
   Suspense,
@@ -412,7 +412,8 @@ const HomePage: React.FC = () => {
     type="submit"
     className="fortune-btn fixed-width-btn transform transition hover:scale-105 active:scale-95"
   >
-    AI가 예측한 나만의 운세 보기
+    <span className="btn-main-label">AI가 예측한 나만의 운세 보기</span>
+    
   </button>
 ) : (
   <div className="flex flex-col w-full gap-2">
@@ -420,16 +421,16 @@ const HomePage: React.FC = () => {
       disabled
       className="fortune-soldout-btn fixed-width-btn transform transition hover:scale-105 active:scale-95"
     >
-      <Clock className="icon" style={{ marginRight: '5px' }} />
-        티켓이 모두 소진되었습니다
-    </button>
+      {/* <Clock className="icon" style={{ marginRight: '5px' }} /> */}
+        <span className="btn-label">아쉽지만, 지금은 티켓이 없어요</span>
+      </button>
     <button
       type="button"
       onClick={handlePrev}
       className="fortune-btn-share fixed-width-btn transform transition hover:scale-105 active:scale-95"
     >
       <Share2 className="icon" style={{ marginRight: '5px' }} />
-        이전 결과 공유하고, 티켓 받기
+        <span className="btn-label">이전 결과 공유하고, 티켓 받기</span>
     </button>
     </div>
 )}
