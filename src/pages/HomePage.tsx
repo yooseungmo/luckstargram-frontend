@@ -1,4 +1,5 @@
 // src/pages/HomePage.tsx
+
 import React, {
   memo,
   Suspense,
@@ -8,6 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Picker from 'react-mobile-picker';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useMedia from 'use-media';
@@ -294,6 +296,15 @@ const HomePage: React.FC = () => {
 
   /* 입력 폼 */
   return (
+    <>
+    <Helmet>
+      <title>LuckStargram 🍀</title>
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://www.luckstargram.com/" />
+      <meta property="og:title" content="LuckStargram 🍀" />
+      <meta property="og:description" content="AI가 예측한 나만의 운세를 지금 바로 확인해보세요!" />
+      <meta property="og:image" content="/logo.webp" />
+    </Helmet>
     <div className="fortune-bg">
       <div className="frame">
         <div className="frame__inner">
@@ -474,6 +485,7 @@ const HomePage: React.FC = () => {
         </>
       )}
     </div> 
+    </>
   );
 };
 
