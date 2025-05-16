@@ -316,7 +316,7 @@ input[type='date']{
   font-weight: 600;
   font-size: 1rem;
   text-align: center;
-  color: #6ee7b7;
+  color: #6ee7b7de;
 }
 
 .custom-date-input {
@@ -464,4 +464,33 @@ body.modal-open {
 /* 클래스 이름은 여기와 완전히 일치해야 합니다 */
 .zoomOutUp {
   animation: zoomOutUp 1s both;
+}
+
+.fortune-btn-share {
+  width:100%;margin-bottom:10px;max-width:100%;margin: 0 auto 10px;
+  background:rgba(65, 111, 175, 0.358);color:#fff;font-size:1.13rem;font-weight:600;
+  border:none;border-radius:1rem;padding:.95rem 0;cursor:pointer;transition:background .2s;
+}
+
+.fortune-soldout-btn {
+  width:100%;margin-bottom:10px;max-width:100%;margin: 0 auto 10px;
+  background:rgba(255,255,255,.12);color:#fff;font-size:1.13rem;font-weight:600;
+  border:none;border-radius:1rem;padding:.95rem 0;cursor:pointer;transition:background .2s;
+}
+.fortune-soldout-btn:hover:not(:disabled){background:rgba(255,255,255,.22);}
+
+
+.fortune-btn-share:hover {
+  background-color: #2f66dc9b;
+}
+.fortune-btn-share{transition:transform .2s ease-in-out;}
+.fortune-btn-share:hover{transform:scale(1.05);}
+.fortune-btn-share:active{transform:scale(.95);}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: 4px; /* ✔ 아이콘 baseline 보정! */
+  flex-shrink: 0;
 }

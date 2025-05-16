@@ -1,3 +1,4 @@
+import { Gift, Ticket } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -205,13 +206,19 @@ const SharePage: React.FC = () => {
             onClick={handleReceive}
             className="fortune-btn fixed-width-btn mb-4"
           >
-            🎟️ 티켓 받고, 나만의 운세 보러가기
+            <Ticket className="icon" style={{ marginRight: '5px' }} />
+            티켓 받고, 나만의 운세 보러가기
           </button>
 
           {/* 수신 완료 모달 */}
           <Modal
             isOpen={showModal}
-            message="🎁 티켓 한 장이 선물로 도착했어요!"
+            message={
+              <span>
+                <Gift className="icon" style={{ marginRight: '0px' }} />
+                <strong> 티켓 한 장이 선물로 도착했어요!</strong>
+              </span>
+            }
           />
 
           {/* 티켓 안내 */}

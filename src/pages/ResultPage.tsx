@@ -1,3 +1,4 @@
+import { Gift, Share2 } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
@@ -90,7 +91,7 @@ const ResultPage: React.FC = () => {
           return next;
         });
         setShowModal(true);
-        setTimeout(() => setShowModal(false), 3000);
+        setTimeout(() => setShowModal(false), 5000);
       };
 
       if (navigator.share) {
@@ -156,17 +157,23 @@ const ResultPage: React.FC = () => {
           🎟️ 보유 티켓 x {remainingCount}장
         </p>
 
-        {/* 공유 버튼 (handleShare 호출) */}
-        <button onClick={handleShare} className="fortune-btn fixed-width-btn mb-4">
-          🔗 운세 결과 공유하고, 티켓 받기
+        <button
+          type="button"
+          onClick={handleShare}
+          className="fortune-btn-share fixed-width-btn transform transition hover:scale-105 active:scale-95"
+        >
+          <Share2 className="icon" style={{ marginRight: '5px' }} />
+            운세 결과 공유하고, 티켓 받기
         </button>
 
         {/* 모달 */}
         <Modal
           isOpen={showModal}
+          
           message={
             <span>
-              <strong>🎁 공유 완료! 티켓 한 장이 선물로 도착했어요!</strong>
+              <Gift className="icon" style={{ marginRight: '0px' }} />
+              <strong> 공유 완료! 티켓 한 장이 선물로 도착했어요</strong>
             </span>
           }
         />

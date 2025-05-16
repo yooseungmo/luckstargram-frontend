@@ -1,5 +1,6 @@
 // src/pages/HomePage.tsx
 
+import { Clock, Share2 } from 'lucide-react';
 import React, {
   memo,
   Suspense,
@@ -9,6 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+
 import { Helmet } from 'react-helmet-async';
 import Picker from 'react-mobile-picker';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -397,14 +399,40 @@ const HomePage: React.FC = () => {
           </p>
 
           {/* 운세 생성 or 이전결과 보기 */}
-          <button
+          {/* <button
             type="submit"
             className="fortune-btn fixed-width-btn transform transition hover:scale-105 active:scale-95"
           >
             {remainingCount > 0
               ? 'AI가 예측한 나만의 운세 보기'
               : '🔗 이전 결과 공유하고, 티켓 받기'}
-          </button>
+          </button> */}
+{remainingCount > 0 ? (
+  <button
+    type="submit"
+    className="fortune-btn fixed-width-btn transform transition hover:scale-105 active:scale-95"
+  >
+    AI가 예측한 나만의 운세 보기
+  </button>
+) : (
+  <div className="flex flex-col w-full gap-2">
+    <button
+      disabled
+      className="fortune-soldout-btn fixed-width-btn transform transition hover:scale-105 active:scale-95"
+    >
+      <Clock className="icon" style={{ marginRight: '5px' }} />
+        티켓이 모두 소진되었습니다
+    </button>
+    <button
+      type="button"
+      onClick={handlePrev}
+      className="fortune-btn-share fixed-width-btn transform transition hover:scale-105 active:scale-95"
+    >
+      <Share2 className="icon" style={{ marginRight: '5px' }} />
+        이전 결과 공유하고, 티켓 받기
+    </button>
+    </div>
+)}
 
           {/* 티켓 안내 */}
           <div
