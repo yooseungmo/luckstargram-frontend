@@ -36,7 +36,10 @@ const ResultPage: React.FC = () => {
   const [sharedCount, setSharedCount] = useState(storedShared);
   const receiveCount = storedReceive;
   const dailyLimit   = 1;
-  const remainingCount = dailyLimit - storedUsed + sharedCount + receiveCount;
+  const remainingCount = Math.max(
+    0,
+    dailyLimit - storedUsed + sharedCount + receiveCount,
+  )
 
   // ─── 로고 애니메이션 & 복원 ───
   const logoRef = useRef<HTMLImageElement>(null);

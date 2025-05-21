@@ -34,7 +34,10 @@ const SharePage: React.FC = () => {
 
   // ─── 남은 횟수 계산 ───
   const dailyLimit     = 1;
-  const remainingCount = dailyLimit - storedUsed + sharedCount + receiveCount;
+  const remainingCount = Math.max(
+    0,
+    dailyLimit - storedUsed + sharedCount + receiveCount,
+  );
 
   // 1) 공유 전용 API 호출
   useEffect(() => {

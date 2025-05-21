@@ -60,7 +60,10 @@ const HomePage: React.FC = () => {
   const receiveCount = receiveCountStored;
 
   /* 잔여횟수 계산 */
-  const remainingCount = dailyLimit - usedCount + sharedCount + receiveCount;
+  const remainingCount = Math.max(
+    0,
+    dailyLimit - usedCount + sharedCount + receiveCount,
+  )
 
   /* 초기값 */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
