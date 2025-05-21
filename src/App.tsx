@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import ResultPage from './pages/ResultPage';
+import SamplePage from './pages/Sample';
 import SharePage from './pages/SharePage';
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="share/:uuid" element={<SharePage />} />
           <Route path="result" element={<ResultPage />} />
+          <Route path="/sample" element={<SamplePage />} />
         </Route>
       </Routes>
     </>

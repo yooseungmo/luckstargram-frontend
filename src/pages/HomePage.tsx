@@ -442,7 +442,7 @@ const HomePage: React.FC = () => {
           <div
             className="w-full text-left text-xs text-gray-500 mb-4"
             style={{
-              margin: '-1rem 0 0.5rem',
+              margin: '-1rem 0 1rem',
               fontWeight: 200,
               fontSize: '0.72rem',
               lineHeight: 1.4,
@@ -455,15 +455,26 @@ const HomePage: React.FC = () => {
           </div>
 
         </form>
-
         <a
           href="https://forms.gle/9NTGLxcsES7QkDTf6"
           target="_blank"
           rel="noopener noreferrer"
           className="contact-inline-link"
         >
-          Contact.
+          Contact
         </a>
+
+        {/* ⬇️ 추가: 저작권 푸터 */}
+        <p className="text-center text-xs text-gray-400 mt-4"
+          style={{
+            margin: '0.2rem 0 0.5rem',
+            fontWeight: 200,
+            fontSize: '0.8rem',
+            lineHeight: 1.4,
+            color: '#6B7280', 
+          }}>
+          © {new Date().getFullYear()} LuckStargram – AI Fortune Service
+        </p>
       </div>
       </div>
 

@@ -205,8 +205,20 @@ const ResultPage: React.FC = () => {
           rel="noopener noreferrer"
           className="contact-inline-link"
         >
-          Contact.
+          Contact
         </a>
+
+        {/* ⬇️ 추가: 저작권 푸터 */}
+        <p className="text-center text-xs text-gray-400 mt-4"
+          style={{
+            margin: '0.2rem 0 0.5rem',
+            fontWeight: 200,
+            fontSize: '0.8rem',
+            lineHeight: 1.4,
+            color: '#6B7280', 
+          }}>
+          © {new Date().getFullYear()} LuckStargram – AI Fortune Service
+        </p>
       </div>
     </div>
     </div>
