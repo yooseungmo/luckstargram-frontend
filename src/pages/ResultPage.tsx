@@ -128,7 +128,14 @@ const ResultPage: React.FC = () => {
 
         {/* 타이틀 */}
         <p className="fortune-subtitle mb-4">✨ 당신의 오늘, AI가 미리 알려드려요</p>
-        <p className="text-white text-5xl font-bold mb-6">
+        <p
+          className="text-white text-5xl font-bold mb-6"
+          style={{
+            color: '#ffffff',                       // 완전 흰색
+            WebkitFontSmoothing: 'antialiased',     // 크롬·사파리용
+            MozOsxFontSmoothing: 'grayscale',       // 파이어폭스용
+          }}
+        >
           {nameOnly}님의 {month}월 {day}일 운세입니다 🥠
         </p>
 
