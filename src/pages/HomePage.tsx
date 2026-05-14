@@ -306,8 +306,8 @@ const HomePage: React.FC = () => {
   return (
     <>
     <SEO
-      title="럭스타그램 LuckStargram 🍀 - AI 무료 오늘의 운세, 사주, 별자리 운세"
-      description="AI가 알려주는 오늘의 운세! 이름과 생년월일만 입력하면 무료로 오늘의 운세, 사주, 별자리 운세를 확인하고 친구들과 공유할 수 있어요."
+      title="럭스타그램 🍀 AI가 알려주는 오늘의 운세"
+      description="이름과 생년월일만 입력하면 AI가 무료로 오늘의 운세, 사주, 별자리 운세를 알려드려요. 친구와 공유해보세요!"
       url="https://www.luckstargram.com/"
     />
     <div className="fortune-bg">
