@@ -1,5 +1,21 @@
 User-agent: *
 Allow: /
 
+# 네이버 검색로봇 (Yeti) 명시적 허용
+User-agent: Yeti
+Allow: /
+
+# 구글 검색로봇 명시적 허용
+User-agent: Googlebot
+Allow: /
+
+# 다음 검색로봇 명시적 허용
+User-agent: Daum
+Allow: /
+
+# 빙 검색로봇 명시적 허용
+User-agent: Bingbot
+Allow: /
+
 # SEO‑friendly: 검색 엔진에 사이트맵 위치 알려주기
 Sitemap: https://www.luckstargram.com/sitemap.xml
