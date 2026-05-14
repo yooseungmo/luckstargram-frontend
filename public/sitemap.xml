@@ -5,4 +5,9 @@
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
   </url>
+  <url>
+    <loc>https://www.luckstargram.com/sample</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>
