@@ -1,9 +1,9 @@
 import { Gift } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Modal from '../components/Modal';
+import SEO from '../components/SEO';
 import './HomePage.css';
 
 interface ShareData {
@@ -134,20 +134,12 @@ const SharePage: React.FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={imageUrl} />
-        <meta property="og:url" content={shareUrl} />
-        <meta property="og:locale" content="ko_KR" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={imageUrl} />
-      </Helmet>
+      <SEO
+        title={title}
+        description={description}
+        image={imageUrl}
+        url={shareUrl}
+      />
       <div className="fortune-bg">
       <div className="frame">
       <div className="frame__inner">

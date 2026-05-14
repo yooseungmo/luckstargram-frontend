@@ -2,6 +2,7 @@ import { Gift, Share2 } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
+import SEO from '../components/SEO';
 import './HomePage.css';
 
 interface ShareData {
@@ -118,6 +119,12 @@ const ResultPage: React.FC = () => {
   const nameOnly = name.length > 1 ? name.slice(1) : name;
 
   return (
+    <>
+    <SEO
+      title={`${nameOnly}님의 ${month}월 ${day}일 운세 🥠 - 럭스타그램 LuckStargram`}
+      description={`${nameOnly}님의 오늘의 운세 결과! AI가 분석한 ${month}월 ${day}일 운세와 행운의 조언을 확인하세요.`}
+      url="https://www.luckstargram.com/result"
+    />
     <div className="fortune-bg">
       <div className="frame">
       <div className="frame__inner">
@@ -229,6 +236,7 @@ const ResultPage: React.FC = () => {
       </div>
     </div>
     </div>
+    </>
   );
 };
 

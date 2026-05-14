@@ -11,7 +11,7 @@ import React, {
   useState,
 } from 'react';
 
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import Picker from 'react-mobile-picker';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useMedia from 'use-media';
@@ -259,10 +259,13 @@ const HomePage: React.FC = () => {
             <img
               ref={logoRef}
               src="/main.webp"
-              alt="LuckStargram"
+              alt="럭스타그램 LuckStargram - AI 오늘의 운세"
               className="logo-img"
             />
           </button>
+          <h1 className="sr-only">
+            럭스타그램 LuckStargram - AI 무료 오늘의 운세, 데일리 운세 서비스
+          </h1>
           <p className="fortune-subtitle mb-6">
             ✨ 당신의 오늘, AI가 미리 알려드려요
           </p>
@@ -302,14 +305,11 @@ const HomePage: React.FC = () => {
   /* 입력 폼 */
   return (
     <>
-    <Helmet>
-      <title>LuckStargram 🍀</title>
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://www.luckstargram.com/" />
-      <meta property="og:title" content="LuckStargram 🍀" />
-      <meta property="og:description" content="AI가 예측한 나만의 운세를 지금 바로 확인해보세요!" />
-      <meta property="og:image" content="/logo.webp" />
-    </Helmet>
+    <SEO
+      title="럭스타그램 LuckStargram 🍀 - AI 무료 오늘의 운세, 사주, 별자리 운세"
+      description="AI가 알려주는 오늘의 운세! 이름과 생년월일만 입력하면 무료로 오늘의 운세, 사주, 별자리 운세를 확인하고 친구들과 공유할 수 있어요."
+      url="https://www.luckstargram.com/"
+    />
     <div className="fortune-bg">
       <div className="frame">
         <div className="frame__inner">
@@ -464,6 +464,29 @@ const HomePage: React.FC = () => {
           Contact
         </a>
 
+        {/* SEO용 시맨틱 마크업 (스크린리더 및 검색엔진 크롤링) */}
+        <section className="sr-only" aria-label="서비스 소개">
+          <h2>럭스타그램(LuckStargram)이란?</h2>
+          <p>
+            럭스타그램은 AI가 분석한 오늘의 운세를 무료로 제공하는 데일리 운세 서비스입니다.
+            이름과 생년월일을 입력하면 매일 새로운 운세, 사주, 별자리 운세를 확인할 수 있고,
+            친구들과 카카오톡, 인스타그램 등 SNS로 간편하게 공유할 수 있어요.
+          </p>
+          <h2>주요 기능</h2>
+          <ul>
+            <li>AI 기반 오늘의 운세 무료 분석</li>
+            <li>매일 자정 갱신되는 데일리 운세</li>
+            <li>친구와 운세 공유하기 (카카오톡, 인스타그램, 링크)</li>
+            <li>이름과 생년월일 기반 맞춤 운세</li>
+            <li>행운의 조언과 행동 가이드 제공</li>
+          </ul>
+          <h2>이런 분들께 추천드려요</h2>
+          <p>
+            오늘의 운세가 궁금한 분, 무료 사주를 보고 싶은 분, 데일리 운세를 매일 확인하고 싶은 분,
+            친구들과 재미있는 운세를 공유하고 싶은 분 모두 럭스타그램을 이용해보세요.
+          </p>
+        </section>
+
         {/* ⬇️ 추가: 저작권 푸터 */}
         <p className="text-center text-xs text-gray-400 mt-4"
           style={{
@@ -471,7 +494,7 @@ const HomePage: React.FC = () => {
             fontWeight: 200,
             fontSize: '0.8rem',
             lineHeight: 1.4,
-            color: '#6B7280', 
+            color: '#6B7280',
           }}>
           © {new Date().getFullYear()} LuckStargram – AI Fortune Service
         </p>
